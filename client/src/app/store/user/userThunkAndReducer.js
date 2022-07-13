@@ -2,6 +2,7 @@ import axios from 'axios';
 import history from '../../../history';
 import { GET_USER, CREATE_USER, UPDATE_USER } from './userAction';
 import { fetchUser, addUser, putUser, invalidEmail } from './userAction';
+import { apiUrl } from '../../../properties';
 
 /*
 history
@@ -16,7 +17,7 @@ export const currentUser =
   async (dispatch, getState, { axios }) => {
     let res;
     try {
-      res = await axios.get(`/api/users/${id}`);
+      res = await axios.get(`${apiUrl}/api/users/${id}`);
       dispatch(fetchUser(res.data || defaultUser));
     } catch (error) {
       console.error(
@@ -27,21 +28,21 @@ export const currentUser =
 
 // form one
 export const addUserFormOne =
-  (email, username, password) =>
+  (form, email, username, password) =>
   async (dispatch, getState, { axios }) => {
     let res;
     try {
-      if (!email.includes('@')) {
-        dispatch(invalidEmail(email, 'invalid email error'));
-      } else {
-        res = await axios.post(`/api/users/`, {
-          email,
-          username,
-          password,
-        });
-        dispatch(addUser(res.data || defaultUser));
-        history.push('/fromTwo');
-      }
+      // if (!email.includes('@')) {
+      //   dispatch(invalidEmail(email, 'invalid email error'));
+      // } else {
+      res = await axios.post(`${apiUrl}/api/users/`, {
+        email,
+        username,
+        password,
+      });
+      dispatch(addUser(res.data || defaultUser));
+      history.push('/fromTwo');
+      // }
     } catch (addError) {
       console.error(
         `Could not add to database, form 1 thunk first catch error: ${addError}`
@@ -60,7 +61,7 @@ export const addUserFormTwo =
   async (dispatch, getState, { axios }) => {
     let res;
     try {
-      res = await axios.put(`/api/users/${id}`, form, {
+      res = await axios.put(`${apiUrl}/api/users/${id}`, form, {
         firstName,
         lastName,
         number,
@@ -83,7 +84,7 @@ export const addUserFormThree =
   async (dispatch, getState, { axios }) => {
     let res;
     try {
-      res = await axios.put(`/api/users/${id}`, form, {
+      res = await axios.put(`${apiUrl}/api/users/${id}`, form, {
         streetAddress,
         city,
         state,

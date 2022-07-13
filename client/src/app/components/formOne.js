@@ -84,7 +84,9 @@ const FormOne = (props) => {
         </div>
         <p />
         <div>
-          <button type="submit">Submit</button>
+          <button type="submit" onClick={this.handleSubmit}>
+            Submit
+          </button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
@@ -97,7 +99,6 @@ const FormOne = (props) => {
 };
 
 // container, mapping state and dispatch to props
-
 const mapStateToProps = (state) => {
   return {
     email: state.user.email,

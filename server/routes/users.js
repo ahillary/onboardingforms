@@ -1,5 +1,4 @@
-var express = require('express');
-var router = express.Router();
+const router = require('express').Router();
 const { User } = require('../db');
 
 // GET /users/:userId - find a specific user
@@ -24,7 +23,7 @@ router.get('/:id', async (req, res, next) => {
       return;
     }
 
-    res.status(200).json(project);
+    res.status(200).json(user);
   } catch (error) {
     next(error);
   }
