@@ -1,6 +1,9 @@
-# Getting Started with Create React App and Redux
+A technical challenge to create an interface for a user to input information, aka an onboarding process that includes a series of forms. This was created with a time limit of 24 hours. Bootstrapped with [create-react-app] (https://github.com/facebook/create-react-app) and [redux toolkit](https://redux-toolkit.js.org/) to fulfill front-end requirements. Bootstrapped with [express-generator] (https://github.com/expressjs/generator) for back-end.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+EXPRESS APP
+In the server project directory, you can run `npm start` to start your Express.js app at [http://localhost:3003](http://localhost:3003)
+
+REACT APP
 
 ## Available Scripts
 
@@ -39,8 +42,6 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+### Deployment
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
