@@ -1,57 +1,46 @@
 import axios from 'axios';
-// import history from '../../history';
-import {
-  GET_USER,
-  CREATE_USER,
-  UPDATE_USER,
-  INVALID_EMAIL,
-} from './userAction';
+import history from '../../../history';
+import { GET_USER, CREATE_USER, UPDATE_USER } from './userAction';
 import { setUser, addUser, putUser, invalidEmail } from './userAction';
 
 /*
 history
-
-thunk:
-axios.get('/auth/me');
 */
 
 // initial state
 export const defaultUser = {};
 
 //thunk creators
-export const currentUser = () => async (dispatch) => {
-  try {
-    const res = await axios.get('/auth/me');
-    dispatch(setUser(res.data || defaultUser));
-  } catch (error) {
-    console.error(
-      `could not retrieve database info to continue. Error: ${error}`
-    );
-  }
-};
-//FOR REFERENCE to authSignUpFormOne
-// export const addUser =
-//   (user) =>
-//   async (dispatch, getState, { axios }) => {
-//     const res = await axios.post('/api/users/', user);
-//     dispatch(addUser(res.data || defaultUser));
-//   };
+export const currentUser =
+  (id) =>
+  async (dispatch, getState, { axios }) => {
+    let res;
+    try {
+      res = await axios.get(`/api/users/${id}`);
+      dispatch(setUser(res.data || defaultUser));
+    } catch (error) {
+      console.error(
+        `could not retrieve database user info to continue with signup. Error: ${error}`
+      );
+    }
+  };
 
 // form one
 export const addSignUpFormOne =
-  (form, email, username, password) =>
+  (email, username, password) =>
   async (dispatch, getState, { axios }) => {
     let res;
     try {
       if (!email.includes('@')) {
         dispatch(invalidEmail(email, 'invalid email error'));
       } else {
-        res = await axios.post(`/auth/users/${form}`, {
+        res = await axios.post(`/api/users/`, {
           email,
           username,
           password,
         });
         dispatch(addUser(res.data || defaultUser));
+        history.push('/fromTwo');
       }
     } catch (addError) {
       console.error(
@@ -61,18 +50,18 @@ export const addSignUpFormOne =
 
     try {
       dispatch(setUser(res.data));
-      // history.push('/home');
     } catch (dispatchOrHistoryErr) {
       console.error(`form 1 thunk: ${dispatchOrHistoryErr}`);
     }
   };
 
 // form two
-export const authSignUpFormTwo =
-  (form, id, firstName, lastName, number) => async (dispatch) => {
+export const addSignUpFormTwo =
+  (form, id, firstName, lastName, number) =>
+  async (dispatch, getState, { axios }) => {
     let res;
     try {
-      res = await axios.post(`/auth/users/${form}`, id, {
+      res = await axios.put(`/api/users/${form}`, id, {
         firstName,
         lastName,
         number,
@@ -81,7 +70,7 @@ export const authSignUpFormTwo =
       return dispatch(setUser({ error: updateError }));
     }
     try {
-      dispatch(setUser(res.data));
+      dispatch(putUser(res.data));
       // history.push('/home');
     } catch (dispatchOrHistoryErr) {
       console.error(`form 2 thunk: ${dispatchOrHistoryErr}`);
@@ -89,7 +78,7 @@ export const authSignUpFormTwo =
   };
 
 // form three
-export const authSignUpFormThree =
+export const addSignUpFormThree =
   (form, street, city, state, zip) => async (dispatch) => {
     let res;
     try {
@@ -100,7 +89,7 @@ export const authSignUpFormThree =
         zip,
       });
     } catch (addError) {
-      return dispatch(setUser({ error: addError }));
+      return dispatch(putUser({ error: addError }));
     }
 
     try {

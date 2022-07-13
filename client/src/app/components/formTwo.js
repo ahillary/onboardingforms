@@ -44,7 +44,7 @@ export class Second extends React.Component {
     if (firstName && lastName && number) {
       this.props.putUser(form, firstName, lastName, number);
       // if success axios will send success response
-      // with the success redirect to FormTwo
+      // with the success redirect to FormThree
     } else {
       alert(`Error with handleSumit`);
       return;
@@ -70,6 +70,10 @@ const FormTwo = (props) => {
     <div>
       <form onSubmit={handleSubmit}>
         <div>
+          <h3>What's your name and number?</h3>
+        </div>
+        <p />
+        <div>
           <label htmlFor="firstName">
             <small>First Name</small>
           </label>
@@ -91,13 +95,14 @@ const FormTwo = (props) => {
         </div>
         <p />
         <div>
-          <button type="submit">Continue</button>
+          <button type="submit">Submit</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
       <div>
-        <p /> <Link to="/formThree">Continue</Link>
-        <p /> <Link to="/formTwo">Go Back</Link>
+        <p /> <Link to="/formThree">See next page without submitting</Link>
+        <p /> <Link to="/formOne">Go back without submitting</Link>
+        <p /> <Link to="/">Exit to Home Page</Link>
       </div>
     </div>
   );
@@ -112,8 +117,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  setUser: (user) => dispatch(setUser(user)),
-  putUser: (user) => dispatch(putUser(user)),
+  setUser: (id) => dispatch(setUser(id)),
+  putUser: (user) => dispatch(addSignUpFormTwo(user)),
 });
 
 connect(mapStateToProps, mapDispatchToProps)(Second);

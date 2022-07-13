@@ -59,6 +59,10 @@ const FormOne = (props) => {
     <div>
       <form onSubmit={handleSubmit}>
         <div>
+          <h3>How do you want to login?</h3>
+        </div>
+        <p />
+        <div>
           <label htmlFor="email">
             <small>Email</small>
           </label>
@@ -80,13 +84,14 @@ const FormOne = (props) => {
         </div>
         <p />
         <div>
-          <button type="submit">Continue</button>
+          <button type="submit">Submit</button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
       <div>
-        <p /> <Link to="/formTwo">Continue</Link>
+        <p /> <Link to="/formTwo">See next page without submitting</Link>
       </div>
+      <p /> <Link to="/">Exit to Home Page</Link>
     </div>
   );
 };
@@ -108,3 +113,5 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 connect(mapStateToProps, mapDispatchToProps)(First);
+
+export default First;
