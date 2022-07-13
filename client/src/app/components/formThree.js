@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addSignUpFormThree } from '../store/user/userThunkAndReducer';
+import { addUserFormThree } from '../store/user/userThunkAndReducer';
 import { fetchUser } from '../store/user/userAction';
 
 export class Third extends React.Component {
@@ -149,7 +149,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   loadUser: (id) => dispatch(fetchUser(id)),
   putUser: (form, streetAddress, city, state, zipCode) =>
-    dispatch(addSignUpFormThree(form, streetAddress, city, state, zipCode)),
+    dispatch(addUserFormThree(form, streetAddress, city, state, zipCode)),
 });
 
 connect(mapStateToProps, mapDispatchToProps)(Third);

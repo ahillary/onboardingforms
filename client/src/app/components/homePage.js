@@ -2,7 +2,7 @@ import React from 'react';
 // import logo from './logo.svg';
 import { Link } from 'react-router-dom';
 
-class ToStart extends React.Component {
+class HomePage extends React.Component {
   render() {
     return (
       <div className="landing-page">
@@ -20,4 +20,4 @@ class ToStart extends React.Component {
   }
 }
 
-export default ToStart;
+export default HomePage;

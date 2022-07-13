@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addSignUpFormOne } from '../store/user/userThunkAndReducer';
+import { addUserFormOne } from '../store/user/userThunkAndReducer';
 
 export class First extends React.Component {
   constructor() {
@@ -109,7 +109,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   addUser: (form, email, username, password) =>
-    dispatch(addSignUpFormOne(form, email, username, password)),
+    dispatch(addUserFormOne(form, email, username, password)),
 });
 
 connect(mapStateToProps, mapDispatchToProps)(First);

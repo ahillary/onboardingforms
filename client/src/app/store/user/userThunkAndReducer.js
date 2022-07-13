@@ -26,7 +26,7 @@ export const currentUser =
   };
 
 // form one
-export const addSignUpFormOne =
+export const addUserFormOne =
   (email, username, password) =>
   async (dispatch, getState, { axios }) => {
     let res;
@@ -55,7 +55,7 @@ export const addSignUpFormOne =
   };
 
 // form two
-export const addSignUpFormTwo =
+export const addUserFormTwo =
   (form, id, firstName, lastName, number) =>
   async (dispatch, getState, { axios }) => {
     let res;
@@ -78,7 +78,7 @@ export const addSignUpFormTwo =
   };
 
 // form three
-export const addSignUpFormThree =
+export const addUserFormThree =
   (form, id, streetAddress, city, state, zipCode) =>
   async (dispatch, getState, { axios }) => {
     let res;
