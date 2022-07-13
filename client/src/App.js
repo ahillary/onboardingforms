@@ -1,14 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+// import logo from './logo.svg';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <h2>Welcome</h2>
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
+        {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <span>
           <span>What do you want to do? </span>
           <p></p>
@@ -20,7 +18,7 @@ function App() {
           >
             Start onboarding
           </a>
-          <span> or </span>
+          {/* <span> or </span>
           <a
             className="App-link"
             href="https://redux.js.org/"
@@ -29,7 +27,7 @@ function App() {
           >
             Continue onboarding
           </a>
-          <span> </span>
+          <span> </span> */}
         </span>
       </header>
     </div>
