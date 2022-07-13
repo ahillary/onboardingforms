@@ -1,7 +1,7 @@
 import axios from 'axios';
 import history from '../../../history';
 import { GET_USER, CREATE_USER, UPDATE_USER } from './userAction';
-import { setUser, addUser, putUser, invalidEmail } from './userAction';
+import { fetchUser, addUser, putUser, invalidEmail } from './userAction';
 
 /*
 history
@@ -17,7 +17,7 @@ export const currentUser =
     let res;
     try {
       res = await axios.get(`/api/users/${id}`);
-      dispatch(setUser(res.data || defaultUser));
+      dispatch(fetchUser(res.data || defaultUser));
     } catch (error) {
       console.error(
         `could not retrieve database user info to continue with signup. Error: ${error}`
@@ -47,9 +47,8 @@ export const addSignUpFormOne =
         `Could not add to database, form 1 thunk first catch error: ${addError}`
       );
     }
-
     try {
-      dispatch(setUser(res.data));
+      dispatch(fetchUser(res.data));
     } catch (dispatchOrHistoryErr) {
       console.error(`form 1 thunk: ${dispatchOrHistoryErr}`);
     }
@@ -66,11 +65,11 @@ export const addSignUpFormTwo =
         lastName,
         number,
       });
-    } catch (updateError) {
-      console.error(`form 2 thunk first catch: ${updateError}`);
-      return dispatch(setUser({ error: updateError }));
-    }
-    try {
+      // } catch (updateError) {
+      //   console.error(`form 2 thunk first catch: ${updateError}`);
+      //   return dispatch(putUser({ error: updateError }));
+      // }
+      // try {
       dispatch(putUser(res.data));
       // history.push('/home');
     } catch (dispatchOrHistoryErr) {
@@ -80,21 +79,22 @@ export const addSignUpFormTwo =
 
 // form three
 export const addSignUpFormThree =
-  (form, id, streetAddress, city, state, zipCode) => async (dispatch) => {
+  (form, id, streetAddress, city, state, zipCode) =>
+  async (dispatch, getState, { axios }) => {
     let res;
     try {
-      res = await axios.post(`/api/users/${id}`, form, {
+      res = await axios.put(`/api/users/${id}`, form, {
         streetAddress,
         city,
         state,
         zipCode,
       });
-    } catch (updateError) {
-      console.error(`form 3 thunk first catch: ${updateError}`);
-      return dispatch(putUser({ error: updateError }));
-    }
-    try {
-      dispatch(setUser(res.data));
+      // } catch (updateError) {
+      //   console.error(`form 3 thunk first catch: ${updateError}`);
+      //   return dispatch(putUser({ error: updateError }));
+      // }
+      // try {
+      dispatch(putUser(res.data));
       // history.push('/home');
     } catch (dispatchOrHistoryErr) {
       console.error(`form 3 thunk: ${dispatchOrHistoryErr}`);

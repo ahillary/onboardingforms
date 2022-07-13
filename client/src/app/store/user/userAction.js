@@ -5,7 +5,7 @@ export const UPDATE_USER = 'UPDATE_USER';
 export const INVALID_EMAIL = 'INVALID_EMAIL';
 
 //action creators
-export const setUser = (user) => ({ type: GET_USER, user });
+export const fetchUser = (user) => ({ type: GET_USER, user });
 export const addUser = (addAUser) => ({ type: CREATE_USER, user: addAUser });
 export const putUser = (updateUser) => ({
   type: UPDATE_USER,

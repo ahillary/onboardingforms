@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addSignUpFormThree } from '../store/user/userThunkAndReducer';
-import { setUser, putUser } from '../store/user/userAction';
+import { fetchUser } from '../store/user/userAction';
 
 export class Third extends React.Component {
   constructor() {
@@ -19,9 +19,10 @@ export class Third extends React.Component {
   }
 
   componentDidMount() {
+    // this.props.loadUser();
     // id will come from database after backend creates the user with an id
     // id: this.props.user.id,
-    // this.props.setUser(this.props.match.params.id);
+    // this.props.loadUser(this.props.match.params.id);
   }
 
   handleChange(event) {
@@ -146,7 +147,7 @@ const mapStateToProps = (state) => {
 //
 // add id from backend
 const mapDispatchToProps = (dispatch) => ({
-  setUser: (id) => dispatch(setUser(id)),
+  loadUser: (id) => dispatch(fetchUser(id)),
   putUser: (form, streetAddress, city, state, zipCode) =>
     dispatch(addSignUpFormThree(form, streetAddress, city, state, zipCode)),
 });
