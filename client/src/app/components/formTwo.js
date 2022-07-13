@@ -36,12 +36,21 @@ export class Second extends React.Component {
     // if (!user) {
     //   return 'No one is here';
     // }
+    // get id after finding user in database
     const { firstName, lastName, number } = event;
     if (!firstName || !lastName || !number) {
       alert('A required field is missing.');
       return;
     }
     if (firstName && lastName && number) {
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      // add id from backend
       this.props.putUser(form, firstName, lastName, number);
       // if success axios will send success response
       // with the success redirect to FormThree
@@ -108,7 +117,7 @@ const FormTwo = (props) => {
   );
 };
 
-// container, mapping state and dispatch to props
+// container - mapping state and dispatch to props
 
 const mapStateToProps = (state) => {
   return {
@@ -116,9 +125,18 @@ const mapStateToProps = (state) => {
   };
 };
 
+//
+//
+//
+//
+//
+//
+//
+// add id from backend
 const mapDispatchToProps = (dispatch) => ({
   setUser: (id) => dispatch(setUser(id)),
-  putUser: (user) => dispatch(addSignUpFormTwo(user)),
+  putUser: (form, firstName, lastName, number) =>
+    dispatch(addSignUpFormTwo(form, firstName, lastName, number)),
 });
 
 connect(mapStateToProps, mapDispatchToProps)(Second);

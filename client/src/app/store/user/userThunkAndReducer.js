@@ -44,7 +44,7 @@ export const addSignUpFormOne =
       }
     } catch (addError) {
       console.error(
-        `Could not add to database, thunk threw this error: ${addError}`
+        `Could not add to database, form 1 thunk first catch error: ${addError}`
       );
     }
 
@@ -61,12 +61,13 @@ export const addSignUpFormTwo =
   async (dispatch, getState, { axios }) => {
     let res;
     try {
-      res = await axios.put(`/api/users/${form}`, id, {
+      res = await axios.put(`/api/users/${id}`, form, {
         firstName,
         lastName,
         number,
       });
     } catch (updateError) {
+      console.error(`form 2 thunk first catch: ${updateError}`);
       return dispatch(setUser({ error: updateError }));
     }
     try {
@@ -79,19 +80,19 @@ export const addSignUpFormTwo =
 
 // form three
 export const addSignUpFormThree =
-  (form, street, city, state, zip) => async (dispatch) => {
+  (form, id, streetAddress, city, state, zipCode) => async (dispatch) => {
     let res;
     try {
-      res = await axios.post(`/auth/${form}`, {
-        street,
+      res = await axios.post(`/api/users/${id}`, form, {
+        streetAddress,
         city,
         state,
-        zip,
+        zipCode,
       });
-    } catch (addError) {
-      return dispatch(putUser({ error: addError }));
+    } catch (updateError) {
+      console.error(`form 3 thunk first catch: ${updateError}`);
+      return dispatch(putUser({ error: updateError }));
     }
-
     try {
       dispatch(setUser(res.data));
       // history.push('/home');

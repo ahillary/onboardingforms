@@ -37,12 +37,23 @@ export class Third extends React.Component {
     // if (!user) {
     //   return 'No one is here';
     // }
+    // get id after finding user in database
+
     const { streetAddress, city, state, zipCode } = event;
     if (!streetAddress || !city || !state || !zipCode) {
       alert('A required field is missing.');
       return;
     }
     if (streetAddress && city && state && zipCode) {
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      // add id from backend
       this.props.putUser(form, streetAddress, city, state, zipCode);
       // if success axios will send success response
       // with the success redirect to Confirmation
@@ -117,5 +128,29 @@ const FormThree = (props) => {
     </div>
   );
 };
+
+// container - mapping state and dispatch to props
+
+const mapStateToProps = (state) => {
+  return {
+    error: state.user.error,
+  };
+};
+
+//
+//
+//
+//
+//
+//
+//
+// add id from backend
+const mapDispatchToProps = (dispatch) => ({
+  setUser: (id) => dispatch(setUser(id)),
+  putUser: (form, streetAddress, city, state, zipCode) =>
+    dispatch(addSignUpFormThree(form, streetAddress, city, state, zipCode)),
+});
+
+connect(mapStateToProps, mapDispatchToProps)(Third);
 
 export default Third;
