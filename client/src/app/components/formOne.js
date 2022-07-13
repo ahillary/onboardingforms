@@ -1,13 +1,16 @@
-// import React from 'react';
-// import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
-// import { authSignUp } from '../store/user/user';
+import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { authSignUp } from '../store/user/user';
 
-// // import { Signup } from './app/components/formOne';
-// // <Signup />;
-// /** COMPONENT **/
+// import { Signup } from './app/components/formOne';
+// <Signup />;
+/** COMPONENT **/
 
+const Form = () => {
+  return <div>nothing to see here</div>;
+};
 // const FormOne = (props) => {
 //   const { displayName, handleSubmit, error } = props;
 
@@ -73,7 +76,19 @@
 //   };
 // };
 
-// export const Signup = connect(mapSignup, mapDispatch)(FormOne);
+export const Signup = Form;
+// connect(mapSignup, mapDispatch)(FormOne);
+
+export class First extends React.Component {
+  render() {
+    return (
+      <div id="formOne">
+        <h1> FormOne</h1>
+        <p /> <Link to="/formTwo">Continue</Link>
+      </div>
+    );
+  }
+}
 
 // /** PROP TYPES **/
 // FormOne.propTypes = {
