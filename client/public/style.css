@@ -43,7 +43,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#confirmation {
+#confirmation,
+#forms {
   align-items: center;
   display: flex;
   flex-direction: column;

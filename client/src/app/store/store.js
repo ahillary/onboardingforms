@@ -5,7 +5,7 @@ import axios from 'axios';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import counterReducer from '../../features/counter/counterSlice';
-import user from './user/user';
+import user from './user/userThunkAndReducer';
 
 const middleware = composeWithDevTools(
   applyMiddleware(
@@ -25,4 +25,4 @@ export const store = configureStore(
 );
 
 export default store;
-export * from './user/user';
+export * from './user/userThunkAndReducer';
