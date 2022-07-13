@@ -146,7 +146,7 @@ const User = db.define('user', {
     validate: {
       notEmpty: { args: true, msg: 'You must enter your full address' },
       notNull: { args: true, msg: 'You must enter your full address' },
-      len: { args: [7, 7], msg: 'Zip code is invalid' },
+      len: { args: [5, 5], msg: 'Zip code is invalid' },
       min: 00001,
       max: 99950,
     },
