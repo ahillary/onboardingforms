@@ -1,5 +1,6 @@
 import React from 'react';
 // import logo from './logo.svg';
+import { Link, BrowserRouter } from 'react-router-dom';
 
 function App() {
   return (
@@ -9,15 +10,12 @@ function App() {
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <span>
           <span>What do you want to do? </span>
-          <p></p>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Start onboarding
-          </a>
+          <p />
+          <BrowserRouter>
+            <Link to="/formOne">Start onboarding </Link>
+          </BrowserRouter>
+          {/* <ToStart /> */}
+          <p />
           {/* <span> or </span>
           <a
             className="App-link"
