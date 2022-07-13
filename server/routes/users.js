@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const { User } = require('../db');
 
 // GET /users/:userId - find a specific user
 router.get('/:id', async (req, res, next) => {
