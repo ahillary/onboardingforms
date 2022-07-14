@@ -2,15 +2,18 @@ const router = require('express').Router();
 
 // GET home page test
 router.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('test!!!');
 });
 
 router.use('/users', require('./users'));
 
 router.use((req, res, next) => {
-  const err = new Error('API route not found!');
-  err.status = 404;
-  next(err);
+  console.log('REQUEST: ', req);
+  console.log('RES: ', res);
+
+  const error = new Error('API route not found!');
+  error.status = 404;
+  next(error);
 });
 
 module.exports = router;
