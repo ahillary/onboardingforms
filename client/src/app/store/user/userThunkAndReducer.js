@@ -34,7 +34,7 @@ export const addUserFormOne =
       // if (!email.includes('@')) {
       //   dispatch(invalidEmail(email, 'invalid email error'));
       // } else {
-      res = await axios.post(`${apiUrl}/api/users/`, {
+      res = await axios.post(`${apiUrl}/users`, {
         email,
         username,
         password,
@@ -59,7 +59,7 @@ export const addUserFormTwo =
   (form, id, firstName, lastName, number) => async (dispatch) => {
     let res;
     try {
-      res = await axios.put(`${apiUrl}/api/users/${id}`, form, {
+      res = await axios.put(`${apiUrl}/users/${id}`, form, {
         firstName,
         lastName,
         number,
@@ -81,7 +81,7 @@ export const addUserFormThree =
   (form, id, streetAddress, city, state, zipCode) => async (dispatch) => {
     let res;
     try {
-      res = await axios.put(`${apiUrl}/api/users/${id}`, form, {
+      res = await axios.put(`${apiUrl}/users/${id}`, form, {
         streetAddress,
         city,
         state,
