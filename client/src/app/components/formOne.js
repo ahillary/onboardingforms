@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { addUserFormOne } from '../store/user/userThunkAndReducer';
 
-export class First extends React.Component {
+class First extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -26,7 +26,7 @@ export class First extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const form = 'one';
-    const { username, email, password } = event;
+    const { username, email, password } = this.state;
     if (!email || !password || !username) {
       alert('A required field is missing.');
       return;
@@ -47,56 +47,61 @@ export class First extends React.Component {
         <header>
           <h1>Page 1 of 3</h1>
         </header>
-        <FormOne />
+        <div>
+          <form onSubmit={this.handleSubmit}>
+            <div>
+              <h3>How do you want to login?</h3>
+            </div>
+            <p />
+            <div>
+              <label htmlFor="email">
+                <small>Email</small>
+              </label>
+              <input
+                name="email"
+                type="text"
+                value={this.state.email}
+                onChange={this.handleChange}
+              />
+            </div>
+            <p />
+            <div>
+              <label htmlFor="username">
+                <small>Username</small>
+              </label>
+              <input
+                name="username"
+                type="text"
+                value={this.state.username}
+                onChange={this.handleChange}
+              />
+            </div>
+            <p />
+            <div>
+              <label htmlFor="password">
+                <small>Password</small>
+              </label>
+              <input
+                name="password"
+                type="password"
+                value={this.state.password}
+                onChange={this.handleChange}
+              />
+            </div>
+            <p />
+            <div>
+              <button type="submit">Submit</button>
+            </div>
+          </form>
+          <div>
+            <p /> <Link to="/formTwo">See next page without submitting</Link>
+          </div>
+          <p /> <Link to="/">Exit to Home Page</Link>
+        </div>
       </div>
     );
   }
 }
-const FormOne = (props) => {
-  const { handleSubmit, error } = props;
-
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <h3>How do you want to login?</h3>
-        </div>
-        <p />
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input name="email" type="text" />
-        </div>
-        <p />
-        <div>
-          <label htmlFor="username">
-            <small>Username</small>
-          </label>
-          <input name="username" type="text" />
-        </div>
-        <p />
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <p />
-        <div>
-          <button type="submit" onClick={this.handleSubmit}>
-            Submit
-          </button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <div>
-        <p /> <Link to="/formTwo">See next page without submitting</Link>
-      </div>
-      <p /> <Link to="/">Exit to Home Page</Link>
-    </div>
-  );
-};
 
 // container, mapping state and dispatch to props
 const mapStateToProps = (state) => {
@@ -108,11 +113,11 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  addUser: (form, email, username, password) =>
-    dispatch(addUserFormOne(form, email, username, password)),
-});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addUser: (form, email, username, password) =>
+      dispatch(addUserFormOne(form, email, username, password)),
+  };
+};
 
-connect(mapStateToProps, mapDispatchToProps)(First);
-
-export default First;
+export default connect(mapStateToProps, mapDispatchToProps)(First);

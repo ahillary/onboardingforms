@@ -28,8 +28,7 @@ export const currentUser =
 
 // form one
 export const addUserFormOne =
-  (form, email, username, password) =>
-  async (dispatch, getState, { axios }) => {
+  (form, email, username, password) => async (dispatch) => {
     let res;
     try {
       // if (!email.includes('@')) {
@@ -57,8 +56,7 @@ export const addUserFormOne =
 
 // form two
 export const addUserFormTwo =
-  (form, id, firstName, lastName, number) =>
-  async (dispatch, getState, { axios }) => {
+  (form, id, firstName, lastName, number) => async (dispatch) => {
     let res;
     try {
       res = await axios.put(`${apiUrl}/api/users/${id}`, form, {
@@ -80,8 +78,7 @@ export const addUserFormTwo =
 
 // form three
 export const addUserFormThree =
-  (form, id, streetAddress, city, state, zipCode) =>
-  async (dispatch, getState, { axios }) => {
+  (form, id, streetAddress, city, state, zipCode) => async (dispatch) => {
     let res;
     try {
       res = await axios.put(`${apiUrl}/api/users/${id}`, form, {
