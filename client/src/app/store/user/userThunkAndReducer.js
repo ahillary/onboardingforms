@@ -39,8 +39,9 @@ export const addUserFormOne =
         username,
         password,
       });
+      console.log('RES.DATA: ', res.data);
       dispatch(addUser(res.data || defaultUser));
-      history.push('/fromTwo');
+      // history.push('/fromTwo');
       // }
     } catch (addError) {
       console.error(
