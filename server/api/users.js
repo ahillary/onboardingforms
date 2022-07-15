@@ -38,10 +38,10 @@ router.post('/', async (req, res, next) => {
       throw error;
     }
     console.log('request: ', req.body);
-    //sequelize is not creating the user. google how to create a user with partial info.
+    //sequelize is not creating the user.
     // try sequelize debug mode
     //
-    //console.log
+    //remove console.logs
     //
     //
     //

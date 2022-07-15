@@ -68,16 +68,13 @@ const startListening = () => {
   const server = http.createServer(app);
 
   // Listen on provided port, on all network interfaces.
-  server.listen(
-    port
-    // () =>
-    //   console.log(`Ready to go on port ${PORT}`
-  );
+  server.listen(port, () => console.log(`Ready to go on port ${port}`));
   server.on('error', onError);
   server.on('listening', onListening);
+
   // set up our socket control center
   const io = socketio(server);
-  require('./socket')(io);
+  require('./db/socket')(io);
 
   // *** Helper Functions ***
 
@@ -85,11 +82,9 @@ const startListening = () => {
   function normalizePort(value) {
     var port = parseInt(value, 10);
     if (isNaN(port)) {
-      // named pipe
       return value;
     }
     if (port >= 0) {
-      // port number
       return port;
     }
     return false;

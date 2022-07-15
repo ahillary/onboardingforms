@@ -13,23 +13,4 @@ db = new Sequelize(`postgres://localhost:5432/${dbName}`, {
   logging: false,
 });
 
-// if (process.env.DATABASE_URL) {
-//     //heroku configuration
-//     db = new Sequelize(process.env.DATABASE_URL, {
-//       logging: false,
-//       dialect: 'postgres',
-//       protocol: 'postgres',
-//       ssl: true,
-//       dialectOptions: {
-//         ssl: true,
-//       },
-//     });
-//   } else {
-
-//   //local configuration
-//   db = new Sequelize(`postgres://localhost:5432/${databaseName}`, {
-//     logging: false,
-//   });
-// }
-
 module.exports = db;
