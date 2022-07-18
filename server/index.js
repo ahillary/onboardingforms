@@ -15,12 +15,13 @@ const Sequelize = require('sequelize');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const db = require('./db');
-console.log(`Why won't the SequelizeStore get set up properly?`);
+console.log(db.dbConnect);
+console.log('real? ', db.User);
+
 const sessionStore = new SequelizeStore({
-  db: db,
+  db: db.dbConnect,
   dialect: 'postgres',
 });
-console.log('FIND ME');
 const socketio = require('socket.io');
 const indexRouter = require('./api/');
 
@@ -67,8 +68,7 @@ const createApp = () => {
 };
 
 const syncDb = () => {
-  console.log('db.sync() not working. Why? What is the db? ', db);
-  db.sync();
+  db.dbConnect.sync();
 };
 
 const startListening = () => {
