@@ -1,13 +1,14 @@
 const crypto = require('crypto');
-const Sequelize = require('sequelize');
-const db = require('./database');
+const { Sequelize, Model, DataTypes } = require('sequelize');
+const db = require('../dbConnect');
+
+// id: {
+//   type: Sequelize.INTEGER,
+//   primaryKey: true,
+//   autoIncrement: true,
+// },
 
 const User = db.define('user', {
-  // id: {
-  //   type: Sequelize.INTEGER,
-  //   primaryKey: true,
-  //   autoIncrement: true,
-  // },
   email: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -34,13 +35,13 @@ const User = db.define('user', {
       return () => this.getDataValue('password');
     },
   },
-  // salt: {
-  //   type: Sequelize.STRING,
-  //   // Making `.password` act like a func hides it when serializing to JSON. This is a work around to get past Sequelize's lack of a "private" option.
-  //   get() {
-  //     return () => this.getDataValue('salt');
-  //   },
-  // },
+  salt: {
+    type: Sequelize.STRING,
+    // Making `.password` act like a func hides it when serializing to JSON. This is a work around to get past Sequelize's lack of a "private" option.
+    get() {
+      return () => this.getDataValue('salt');
+    },
+  },
   // firstName: {
   //   type: Sequelize.STRING,
   //   allowNull: false,
@@ -183,7 +184,7 @@ const setSaltAndPassword = (user) => {
   }
 };
 
-// User.beforeCreate(setSaltAndPassword);
-// User.beforeUpdate(setSaltAndPassword);
+User.beforeCreate(setSaltAndPassword);
+User.beforeUpdate(setSaltAndPassword);
 
 module.exports = User;

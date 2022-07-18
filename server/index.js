@@ -8,9 +8,20 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const debug = require('debug')('server:server');
 const http = require('http');
+
+//connect-sesseion-sequelize with express 4:
+const Sequelize = require('sequelize');
+// initalize sequelize with session store
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
 const db = require('./db');
-const sessionStore = new SequelizeStore({ db });
+console.log(db.dbConnect);
+console.log('real? ', db.User);
+
+const sessionStore = new SequelizeStore({
+  db: db.dbConnect,
+  dialect: 'postgres',
+});
 const socketio = require('socket.io');
 const indexRouter = require('./api/');
 
@@ -56,7 +67,9 @@ const createApp = () => {
   app.set('view engine', 'pug');
 };
 
-const syncDb = () => db.sync();
+const syncDb = () => {
+  db.dbConnect.sync();
+};
 
 const startListening = () => {
   // Get port from environment and store in Express.

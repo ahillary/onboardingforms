@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User } = require('../db');
+const User = require('../db/models/user');
 
 // GET /users/:userId - find a specific user
 router.get('/:id', async (req, res, next) => {
@@ -37,28 +37,25 @@ router.post('/', async (req, res, next) => {
       error.status = 400;
       throw error;
     }
+    console.log('import: ', User);
     console.log('request: ', req.body);
-    //sequelize is not creating the user.
-    // try sequelize debug mode
+
+    //
     //
     //remove console.logs
     //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    const oneUser = User.build(req.body);
-    console.log('built: ', oneUser);
-    await oneUser.save();
-    console.log(oneUser instanceof User);
-    console.log(oneUser.email);
-    // const addedUser = await User.create(req.body);
+
+    // const oneUser = User.build({
+    //   id: req.query.uid,
+    //   email: req.body.email,
+    // });
+    // console.log('built: ', oneUser);
+    // await oneUser.save();
+    // console.log(oneUser instanceof User);
+    // console.log(oneUser.email);
+    const addedUser = await User.create(req.body);
+    console.log('addedUser: ', addedUser);
+
     res.status(201).json(oneUser);
     console.log('added: ');
   } catch (error) {
