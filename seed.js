@@ -1,8 +1,9 @@
-const { db, User } = require('./server/db');
+const { dbConnect } = require('./server/db');
+const User = require('./server/db/models/user');
 
 const users = [
   {
-    email: 'build@barn.com',
+    email: 'buildinga@barn.com',
     username: 'buildingbarns',
     password: '',
     salt: '',
@@ -41,8 +42,8 @@ const users = [
 ];
 
 const seed = async () => {
-  await db.sync({ force: true });
-  console.log(`db synced!`);
+  await dbConnect.sync({ force: true });
+  console.log(`database synced!`);
   await Promise.all(
     users.map((user) => {
       return User.create(user);
@@ -55,11 +56,11 @@ async function runSeed() {
   try {
     await seed().then(() => {
       console.log(`Seeding success!`);
-      db.close();
+      dbConnect.close();
     });
   } catch (error) {
     console.log(`error seeding: ${error}`);
-    db.close();
+    dbConnect.close();
   }
 }
 
