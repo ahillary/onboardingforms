@@ -1,4 +1,4 @@
-A technical challenge to create an interface for a user to input information, aka an onboarding process that includes a series of forms. This challenge had a timecap of 24 hours. Bootstrapped with [create-react-app] (https://github.com/facebook/create-react-app) and [redux toolkit](https://redux-toolkit.js.org/) to fulfill front-end requirements. Bootstrapped with [express-generator] (https://github.com/expressjs/generator) for back-end.
+A technical challenge to create an interface for a user to input information, aka an onboarding process that includes a series of forms. Bootstrapped with [create-react-app](https://github.com/facebook/create-react-app) and [redux toolkit](https://redux-toolkit.js.org/) to fulfill front-end requirements. Bootstrapped with [express-generator](https://github.com/expressjs/generator) for back-end.
 
 To begin testing:
 
