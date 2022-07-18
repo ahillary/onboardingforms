@@ -15,8 +15,6 @@ const Sequelize = require('sequelize');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const db = require('./db');
-console.log(db.dbConnect);
-console.log('real? ', db.User);
 
 const sessionStore = new SequelizeStore({
   db: db.dbConnect,

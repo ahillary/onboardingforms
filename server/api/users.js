@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require('../db/models/user');
+const { dbConnect } = require('../db');
 
 // GET /users/:userId - find a specific user
 router.get('/:id', async (req, res, next) => {
@@ -37,27 +38,16 @@ router.post('/', async (req, res, next) => {
       error.status = 400;
       throw error;
     }
-    console.log('import: ', User);
-    console.log('request: ', req.body);
 
-    //
-    //
-    //remove console.logs
-    //
+    // Ok for now to test, but not ideal
+    await dbConnect.sync({ force: true });
 
-    // const oneUser = User.build({
-    //   id: req.query.uid,
-    //   email: req.body.email,
-    // });
-    // console.log('built: ', oneUser);
-    // await oneUser.save();
-    // console.log(oneUser instanceof User);
-    // console.log(oneUser.email);
-    const addedUser = await User.create(req.body);
-    console.log('addedUser: ', addedUser);
-
-    res.status(201).json(oneUser);
-    console.log('added: ');
+    const addedUser = await User.create({
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+    });
+    res.status(201).json(addedUser);
   } catch (error) {
     next(error);
   }
@@ -79,9 +69,17 @@ router.put('/:id', async (req, res, next) => {
   }
 });
 
-// testing
-router.get('/', (req, res) => {
-  res.send('Hellooo World!');
+// list all users
+router.get('/', async (req, res, next) => {
+  try {
+    const user = await User.findAll({
+      // Explicitly select the desired fields - even though users' passwords are encrypted, it is unnecessary to view here. Additionally, it's poor practice to just send everything to anyone who asks.
+      attributes: ['id', 'email', 'username', 'firstName', 'lastName'],
+    });
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;

@@ -1,12 +1,6 @@
 const crypto = require('crypto');
-const { Sequelize, Model, DataTypes } = require('sequelize');
+const { Sequelize } = require('sequelize');
 const db = require('../dbConnect');
-
-// id: {
-//   type: Sequelize.INTEGER,
-//   primaryKey: true,
-//   autoIncrement: true,
-// },
 
 const User = db.define('user', {
   email: {
