@@ -5,11 +5,17 @@ export const UPDATE_USER = 'UPDATE_USER';
 export const INVALID_EMAIL = 'INVALID_EMAIL';
 
 //action creators
-export const fetchUser = (user) => ({ type: GET_USER, user });
-export const addUser = (addAUser) => ({ type: CREATE_USER, user: addAUser });
-export const putUser = (updateUser) => ({
+export const fetchUser = (findThisUser) => ({
+  type: GET_USER,
+  user: findThisUser,
+});
+export const addUser = (addThisUser) => ({
+  type: CREATE_USER,
+  user: addThisUser,
+});
+export const putUser = (updateThisUser) => ({
   type: UPDATE_USER,
-  user: updateUser,
+  user: updateThisUser,
 });
 
 export const invalidEmail = (email, error) => ({

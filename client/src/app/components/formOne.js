@@ -1,12 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addUserFormOne } from '../store/user/userThunkAndReducer';
+import { addUserFormOne, currentUser } from '../store/user/userThunkAndReducer';
+import Button from '@mui/material/Button';
 
 class First extends React.Component {
   constructor() {
     super();
     this.state = {
+      id: '',
       email: '',
       username: '',
       password: '',
@@ -23,7 +25,11 @@ class First extends React.Component {
     });
   }
 
-  handleSubmit = (event) => {
+  log(list) {
+    console.log('wtf ', list);
+  }
+
+  handleSubmit = async (event) => {
     event.preventDefault();
     const form = 'one';
     const { username, email, password } = this.state;
@@ -32,7 +38,14 @@ class First extends React.Component {
       return;
     }
     if (email && password && username) {
-      this.props.addUser(form, email, username, password);
+      await this.props
+        .addAUser(form, email, username, password)
+        .then(console.log('addedUser: '));
+      // .then((window.location.href = `/formTwo`));
+      // thisUserIs
+      // sdfg@lkh.cp
+
+      // .then()
       // if success axios will send success response
       // with the success redirect to FormTwo
     } else {
@@ -42,11 +55,22 @@ class First extends React.Component {
   };
 
   render() {
+    const users = this.props.users;
+
     return (
       <div id="forms">
         <header>
           <h1>Page 1 of 3</h1>
         </header>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={() => {
+            this.log(users);
+          }}
+        >
+          USERS
+        </Button>
         <div>
           <form onSubmit={this.handleSubmit}>
             <div>
@@ -106,6 +130,7 @@ class First extends React.Component {
 // container, mapping state and dispatch to props
 const mapStateToProps = (state) => {
   return {
+    users: state.usersReducer,
     email: state.user.email,
     username: state.user.username,
     password: state.user.password,
@@ -115,8 +140,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addUser: (form, email, username, password) =>
+    addAUser: (form, email, username, password) =>
       dispatch(addUserFormOne(form, email, username, password)),
+    thisUserIs: (somethingHere) => dispatch(currentUser(somethingHere)),
   };
 };
 

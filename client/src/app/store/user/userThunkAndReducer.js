@@ -12,19 +12,17 @@ history
 export const defaultUser = {};
 
 //thunk creators
-export const currentUser =
-  (id) =>
-  async (dispatch, getState, { axios }) => {
-    let res;
-    try {
-      res = await axios.get(`${apiUrl}/api/users/${id}`);
-      dispatch(fetchUser(res.data || defaultUser));
-    } catch (error) {
-      console.error(
-        `could not retrieve database user info to continue with signup. Error: ${error}`
-      );
-    }
-  };
+export const currentUser = (email) => async (dispatch) => {
+  let res;
+  try {
+    res = await axios.get(`${apiUrl}/api/users/`);
+    dispatch(fetchUser(res.data || defaultUser));
+  } catch (error) {
+    console.error(
+      `could not retrieve database user info to continue with signup. Error: ${error}`
+    );
+  }
+};
 
 // form one
 export const addUserFormOne =
@@ -39,7 +37,6 @@ export const addUserFormOne =
         username,
         password,
       });
-      console.log('RES.DATA: ', res.data);
       dispatch(addUser(res.data || defaultUser));
       // history.push('/fromTwo');
       // }
@@ -49,7 +46,7 @@ export const addUserFormOne =
       );
     }
     try {
-      dispatch(fetchUser(res.data));
+      dispatch(fetchUser(res.data.id));
     } catch (dispatchOrHistoryErr) {
       console.error(`form 1 thunk: ${dispatchOrHistoryErr}`);
     }
@@ -101,7 +98,7 @@ export const addUserFormThree =
   };
 
 /* REDUCER */
-export default function user(state = defaultUser, action) {
+export default function usersReducer(state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
       return action.user;
