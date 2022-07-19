@@ -17,7 +17,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const db = require('./db');
 
 const sessionStore = new SequelizeStore({
-  db: db.dbConnect,
+  db: db.connect,
   dialect: 'postgres',
 });
 const socketio = require('socket.io');
@@ -66,7 +66,7 @@ const createApp = () => {
 };
 
 const syncDb = () => {
-  db.dbConnect.sync();
+  db.connect.sync();
 };
 
 const startListening = () => {

@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const User = require('../db/models/user');
-const { dbConnect } = require('../db');
+const { connect } = require('../db');
 
 // GET /users/:userId - find a specific user
 router.get('/:id', async (req, res, next) => {
@@ -40,7 +40,7 @@ router.post('/', async (req, res, next) => {
     }
 
     // Ok for now to test, but not ideal
-    await dbConnect.sync({ force: true });
+    await connect.sync({ force: true });
 
     const addedUser = await User.create({
       username: req.body.username,
