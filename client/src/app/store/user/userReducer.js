@@ -89,7 +89,7 @@ export const addUserFormThree =
 const initialState = [];
 
 /* REDUCER */
-export default function usersReducer(users = initialState, action) {
+export default function userReducer(users = initialState, action) {
   switch (action.type) {
     case GET_USERS:
       // console.log('list in reducer, prior to concatinate: ', action.user);

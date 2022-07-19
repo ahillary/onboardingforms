@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addUserFormThree } from '../store/user/userThunkAndReducer';
+import { addUserFormThree } from '../store/user/userReducer';
 import { fetchUser } from '../store/user/userAction';
 
 export class Third extends React.Component {
