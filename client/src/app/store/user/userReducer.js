@@ -1,22 +1,18 @@
 import axios from 'axios';
 import history from '../../../history';
-import { GET_USER, CREATE_USER, UPDATE_USER } from './userAction';
-import { fetchUser, addUser, putUser, invalidEmail } from './userAction';
+import { CREATE_USER, GET_USER, GET_USERS, UPDATE_USER } from './userAction';
+import { addUser, fetchUser, fetchUsers, putUser } from './userAction';
 import { apiUrl } from '../../../properties';
 
-/*
-history
-*/
-
-// initial state
-export const defaultUser = {};
+/***** history ****/
 
 //thunk creators
-export const currentUser = (email) => async (dispatch) => {
+// find current with email: currentUser = (email)
+export const allUsers = () => async (dispatch) => {
   let res;
   try {
     res = await axios.get(`${apiUrl}/api/users/`);
-    dispatch(fetchUser(res.data || defaultUser));
+    dispatch(fetchUsers(res.data));
   } catch (error) {
     console.error(
       `could not retrieve database user info to continue with signup. Error: ${error}`
@@ -29,26 +25,18 @@ export const addUserFormOne =
   (form, email, username, password) => async (dispatch) => {
     let res;
     try {
-      // if (!email.includes('@')) {
-      //   dispatch(invalidEmail(email, 'invalid email error'));
-      // } else {
-      res = await axios.post(`${apiUrl}/users`, {
+      res = await axios.post(`${apiUrl}/api/users`, {
         email,
         username,
         password,
       });
-      dispatch(addUser(res.data || defaultUser));
+      dispatch(addUser(res.data));
+
       // history.push('/fromTwo');
-      // }
     } catch (addError) {
       console.error(
         `Could not add to database, form 1 thunk first catch error: ${addError}`
       );
-    }
-    try {
-      dispatch(fetchUser(res.data.id));
-    } catch (dispatchOrHistoryErr) {
-      console.error(`form 1 thunk: ${dispatchOrHistoryErr}`);
     }
   };
 
@@ -57,7 +45,7 @@ export const addUserFormTwo =
   (form, id, firstName, lastName, number) => async (dispatch) => {
     let res;
     try {
-      res = await axios.put(`${apiUrl}/users/${id}`, form, {
+      res = await axios.put(`${apiUrl}/api/users/${id}`, form, {
         firstName,
         lastName,
         number,
@@ -79,7 +67,7 @@ export const addUserFormThree =
   (form, id, streetAddress, city, state, zipCode) => async (dispatch) => {
     let res;
     try {
-      res = await axios.put(`${apiUrl}/users/${id}`, form, {
+      res = await axios.put(`${apiUrl}/api/users/${id}`, form, {
         streetAddress,
         city,
         state,
@@ -97,16 +85,27 @@ export const addUserFormThree =
     }
   };
 
+// initial state
+const initialState = [];
+
 /* REDUCER */
-export default function usersReducer(state = defaultUser, action) {
+export default function usersReducer(users = initialState, action) {
   switch (action.type) {
+    case GET_USERS:
+      // console.log('list in reducer, prior to concatinate: ', action.user);
+      const list = action.user;
+      console.log('full list in reducer: ', list);
+      return list;
     case GET_USER:
       return action.user;
     case CREATE_USER:
+      // const newList = users.concat([action.user]);
+      // console.log('User list after added user, in the reducer: ', newList);
+      // return newList;
       return action.user;
     case UPDATE_USER:
       return action.user;
     default:
-      return state;
+      return users;
   }
 }

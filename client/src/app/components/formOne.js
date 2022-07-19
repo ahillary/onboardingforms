@@ -1,12 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addUserFormOne, currentUser } from '../store/user/userThunkAndReducer';
-import Button from '@mui/material/Button';
+import PropTypes from 'prop-types';
+import { Button } from 'antd';
+import {
+  addUserFormOne,
+  currentUser,
+  allUsers,
+} from '../store/user/userReducer';
 
 class First extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       id: '',
       email: '',
@@ -17,19 +22,24 @@ class First extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.seeAllUsers();
+    console.log('after component did mount, what are the props? ', this.props);
+  }
 
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
     });
+
+    // this.props.seeAllUsers();
   }
 
   log(list) {
-    console.log('wtf ', list);
+    console.log('Full list of the props ', list);
   }
 
-  handleSubmit = async (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
     const form = 'one';
     const { username, email, password } = this.state;
@@ -38,16 +48,14 @@ class First extends React.Component {
       return;
     }
     if (email && password && username) {
-      await this.props
+      this.props
         .addAUser(form, email, username, password)
-        .then(console.log('addedUser: '));
-      // .then((window.location.href = `/formTwo`));
-      // thisUserIs
-      // sdfg@lkh.cp
+        .then(console.log('props are loading here: ', this.props));
 
       // .then()
       // if success axios will send success response
       // with the success redirect to FormTwo
+      // .then((window.location.href = `/formTwo`));
     } else {
       alert(`Error with handleSumit`);
       return;
@@ -84,7 +92,7 @@ class First extends React.Component {
               <input
                 name="email"
                 type="text"
-                value={this.state.email}
+                // value={this.state.email}
                 onChange={this.handleChange}
               />
             </div>
@@ -129,12 +137,13 @@ class First extends React.Component {
 
 // container, mapping state and dispatch to props
 const mapStateToProps = (state) => {
+  const thisState = state;
   return {
-    users: state.usersReducer,
-    email: state.user.email,
-    username: state.user.username,
-    password: state.user.password,
-    error: state.user.error,
+    thisHereState: thisState.user,
+    // email: state.user.email,
+    // username: state.user.username,
+    // password: state.user.password,
+    // error: state.user.error,
   };
 };
 
@@ -142,8 +151,17 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addAUser: (form, email, username, password) =>
       dispatch(addUserFormOne(form, email, username, password)),
-    thisUserIs: (somethingHere) => dispatch(currentUser(somethingHere)),
+    // thisUserIs: (somethingHere) => dispatch(currentUser(somethingHere)),
+    seeAllUsers: () => dispatch(allUsers()),
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(First);
+
+// checking Prop Types
+First.propTypes = {
+  email: PropTypes.string,
+  username: PropTypes.string,
+  password: PropTypes.string,
+  thisThing: PropTypes.string,
+};
