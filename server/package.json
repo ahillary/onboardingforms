@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./",
+    "start": "node ./index.js",
+    "start-dev": "nodemon ./index.js",
     "seed": "node ../seed.js"
   },
   "dependencies": {
@@ -15,6 +16,7 @@
     "express-session": "^1.17.3",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
+    "nodemon": "^2.0.19",
     "pg": "^8.7.3",
     "pug": "^3.0.2",
     "sequelize": "^6.21.3",
