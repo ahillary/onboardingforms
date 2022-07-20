@@ -2,33 +2,33 @@ const router = require('express').Router();
 const User = require('../db/models/user');
 const { connect } = require('../db');
 
-// GET /users/:userId - find a specific user
-router.get('/:id', async (req, res, next) => {
-  try {
-    // get just the integer that is the id
-    const id = parseInt(req.params.id);
-    if (isNaN(id)) {
-      res.status(400).end();
-      return;
-    }
+// GET /users/:username - find a specific user
+// router.get('/:username', async (req, res, next) => {
+//   try {
+//     // get just the username out of the req
+//     const username = req.params.username;
+//     if (isNaN(username)) {
+//       res.status(400).end();
+//       return;
+//     }
 
-    //find the user in the database with matching id
-    const user = await User.findOne({
-      where: {
-        id: id,
-      },
-    });
+//     //find the user in the database with matching username
+//     const user = await User.findOne({
+//       where: {
+//         username: username,
+//       },
+//     });
 
-    if (!user) {
-      res.status(404).end();
-      return;
-    }
+//     if (!user) {
+//       res.status(404).end();
+//       return;
+//     }
 
-    res.status(200).json(user);
-  } catch (error) {
-    next(error);
-  }
-});
+//     res.status(200).json(user);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 // POST /users - add a new user
 router.post('/', async (req, res, next) => {
@@ -38,9 +38,6 @@ router.post('/', async (req, res, next) => {
       error.status = 400;
       throw error;
     }
-
-    // Ok for now to test, but not ideal
-    await connect.sync({ force: true });
 
     const addedUser = await User.create({
       username: req.body.username,
