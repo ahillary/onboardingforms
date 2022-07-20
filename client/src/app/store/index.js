@@ -4,7 +4,8 @@ import { createLogger } from 'redux-logger';
 import axios from 'axios';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import userReducer from './user/userReducer';
+import usersReducer from './user/users';
+import userReducer from './user/user';
 
 const middleware = composeWithDevTools(
   applyMiddleware(
@@ -16,6 +17,7 @@ const middleware = composeWithDevTools(
 export const store = configureStore(
   {
     reducer: combineReducers({
+      users: usersReducer,
       user: userReducer,
     }),
   },
@@ -23,4 +25,5 @@ export const store = configureStore(
 );
 
 export default store;
-export * from './user/userReducer';
+export * from './user/users';
+export * from './user/user';

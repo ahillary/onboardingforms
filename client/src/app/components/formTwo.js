@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addUserFormTwo } from '../store/user/userReducer';
+import { addUserFormTwo } from '../store/user/users';
 import { fetchUser } from '../store/user/userAction';
 
 export class Second extends React.Component {

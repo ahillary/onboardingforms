@@ -1,21 +1,27 @@
 import axios from 'axios';
 import history from '../../../history';
-import { CREATE_USER, GET_USER, GET_USERS, UPDATE_USER } from './userAction';
-import { addUser, fetchUser, fetchUsers, putUser } from './userAction';
+import {
+  CREATE_USER,
+  GET_USERS,
+  UPDATE_USER,
+  addUser,
+  fetchUsers,
+  putUser,
+} from './userAction';
 import { apiUrl } from '../../../properties';
 
 /***** history ****/
 
 //thunk creators
-// find current with email: currentUser = (email)
+
 export const allUsers = () => async (dispatch) => {
   let res;
   try {
-    res = await axios.get(`${apiUrl}/api/users/`);
+    res = await axios.get(`${apiUrl}/api/users`);
     dispatch(fetchUsers(res.data));
   } catch (error) {
     console.error(
-      `could not retrieve database user info to continue with signup. Error: ${error}`
+      `HERE could not retrieve database user info to continue with signup. Error: ${error}`
     );
   }
 };
@@ -89,22 +95,28 @@ export const addUserFormThree =
 const initialState = [];
 
 /* REDUCER */
-export default function userReducer(users = initialState, action) {
+export default function usersReducer(users = initialState, action) {
   switch (action.type) {
     case GET_USERS:
       // console.log('list in reducer, prior to concatinate: ', action.user);
-      const list = action.user;
+      const list = action.users;
       console.log('full list in reducer: ', list);
       return list;
-    case GET_USER:
-      return action.user;
+
     case CREATE_USER:
+      console.log(
+        'usersReducer users initialState within create_user: ',
+        users
+      );
+
       // const newList = users.concat([action.user]);
       // console.log('User list after added user, in the reducer: ', newList);
       // return newList;
       return action.user;
+
     case UPDATE_USER:
       return action.user;
+
     default:
       return users;
   }

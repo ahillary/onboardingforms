@@ -13,9 +13,9 @@ export const fetchUser = (findThisUser) => ({
   type: GET_USER,
   user: findThisUser,
 });
-export const fetchUsers = (AllUsers) => ({
+export const fetchUsers = (ListAllUsers) => ({
   type: GET_USERS,
-  user: AllUsers,
+  users: ListAllUsers,
 });
 export const putUser = (updateThisUser) => ({
   type: UPDATE_USER,
