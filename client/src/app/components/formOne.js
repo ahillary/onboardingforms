@@ -3,15 +3,12 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Button } from 'antd';
-import {
-  addUserFormOne,
-  currentUser,
-  allUsers,
-} from '../store/user/userReducer';
+import { addUserFormOne, allUsers } from '../store/user/users';
+import { currentUser } from '../store/user/user';
 
 class First extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       id: '',
       email: '',
@@ -24,22 +21,15 @@ class First extends React.Component {
 
   componentDidMount() {
     this.props.seeAllUsers();
-    console.log('after component did mount, what are the props? ', this.props);
   }
 
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
     });
-
-    // this.props.seeAllUsers();
   }
 
-  log(list) {
-    console.log('Full list of the props ', list);
-  }
-
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
     const form = 'one';
     const { username, email, password } = this.state;
@@ -48,9 +38,10 @@ class First extends React.Component {
       return;
     }
     if (email && password && username) {
-      this.props
-        .addAUser(form, email, username, password)
-        .then(console.log('props are loading here: ', this.props));
+      await this.props.addAUser(form, email, username, password);
+      await this.props.thisUserIs(email);
+
+      this.props.seeAllUsers();
 
       // .then()
       // if success axios will send success response
@@ -62,8 +53,12 @@ class First extends React.Component {
     }
   };
 
+  log(props) {
+    console.log('Full list of the props ', props);
+  }
+
   render() {
-    const users = this.props.users;
+    const users = this.props.userListState;
 
     return (
       <div id="forms">
@@ -74,7 +69,7 @@ class First extends React.Component {
           variant="contained"
           size="small"
           onClick={() => {
-            this.log(users);
+            this.log(this.props);
           }}
         >
           USERS
@@ -137,13 +132,12 @@ class First extends React.Component {
 
 // container, mapping state and dispatch to props
 const mapStateToProps = (state) => {
-  const thisState = state;
   return {
-    thisHereState: thisState.user,
-    // email: state.user.email,
-    // username: state.user.username,
-    // password: state.user.password,
-    // error: state.user.error,
+    userListState: state.user,
+    email: state.email,
+    username: state.user.username,
+    password: state.user.password,
+    error: state.user.error,
   };
 };
 
@@ -151,7 +145,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addAUser: (form, email, username, password) =>
       dispatch(addUserFormOne(form, email, username, password)),
-    // thisUserIs: (somethingHere) => dispatch(currentUser(somethingHere)),
+    thisUserIs: (email) => dispatch(currentUser(email)),
     seeAllUsers: () => dispatch(allUsers()),
   };
 };

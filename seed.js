@@ -1,4 +1,4 @@
-const { dbConnect } = require('./server/db');
+const { connect } = require('./server/db');
 const User = require('./server/db/models/user');
 
 const users = [
@@ -42,7 +42,7 @@ const users = [
 ];
 
 const seed = async () => {
-  await dbConnect.sync({ force: true });
+  await connect.sync({ force: true });
   console.log(`database synced!`);
   await Promise.all(
     users.map((user) => {
@@ -56,11 +56,11 @@ async function runSeed() {
   try {
     await seed().then(() => {
       console.log(`Seeding success!`);
-      dbConnect.close();
+      connect.close();
     });
   } catch (error) {
     console.log(`error seeding: ${error}`);
-    dbConnect.close();
+    connect.close();
   }
 }
 
