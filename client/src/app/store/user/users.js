@@ -95,24 +95,15 @@ export const addUserFormThree =
 const initialState = [];
 
 /* REDUCER */
-export default function usersReducer(users = initialState, action) {
+const usersReducer = (users = initialState, action) => {
   switch (action.type) {
     case GET_USERS:
-      // console.log('list in reducer, prior to concatinate: ', action.user);
       const list = action.users;
-      console.log('full list in reducer: ', list);
       return list;
 
     case CREATE_USER:
-      console.log(
-        'usersReducer users initialState within create_user: ',
-        users
-      );
-
-      // const newList = users.concat([action.user]);
-      // console.log('User list after added user, in the reducer: ', newList);
-      // return newList;
-      return action.user;
+      const newList = [...users, action.user];
+      return newList;
 
     case UPDATE_USER:
       return action.user;
@@ -120,4 +111,7 @@ export default function usersReducer(users = initialState, action) {
     default:
       return users;
   }
-}
+};
+
+//export reducer
+export default usersReducer;

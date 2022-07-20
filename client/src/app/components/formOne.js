@@ -39,14 +39,12 @@ class First extends React.Component {
     }
     if (email && password && username) {
       await this.props.addAUser(form, email, username, password);
-      await this.props.thisUserIs(email);
+      const user = await this.props.thisUserIs(username);
 
-      this.props.seeAllUsers();
+      // this.props.seeAllUsers();
 
-      // .then()
-      // if success axios will send success response
       // with the success redirect to FormTwo
-      // .then((window.location.href = `/formTwo`));
+      // window.location.href = `/formTwo`;
     } else {
       alert(`Error with handleSumit`);
       return;
@@ -58,8 +56,6 @@ class First extends React.Component {
   }
 
   render() {
-    const users = this.props.userListState;
-
     return (
       <div id="forms">
         <header>
@@ -72,7 +68,7 @@ class First extends React.Component {
             this.log(this.props);
           }}
         >
-          USERS
+          Props
         </Button>
         <div>
           <form onSubmit={this.handleSubmit}>
@@ -117,7 +113,10 @@ class First extends React.Component {
             </div>
             <p />
             <div>
-              <button type="submit">Submit</button>
+              <Link to={`/formTwo`}>
+                {this.state.username}
+                <button type="submit">Submit</button>
+              </Link>
             </div>
           </form>
           <div>
@@ -133,7 +132,7 @@ class First extends React.Component {
 // container, mapping state and dispatch to props
 const mapStateToProps = (state) => {
   return {
-    userListState: state.user,
+    userListState: state.users,
     email: state.email,
     username: state.user.username,
     password: state.user.password,
@@ -157,5 +156,4 @@ First.propTypes = {
   email: PropTypes.string,
   username: PropTypes.string,
   password: PropTypes.string,
-  thisThing: PropTypes.string,
 };
