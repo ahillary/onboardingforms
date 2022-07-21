@@ -28,7 +28,7 @@ export const allUsers = () => async (dispatch) => {
 
 // form one
 export const addUserFormOne =
-  (form, email, username, password) => async (dispatch) => {
+  (email, username, password) => async (dispatch) => {
     let res;
     try {
       res = await axios.post(`${apiUrl}/api/users`, {
