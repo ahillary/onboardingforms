@@ -24,7 +24,6 @@ router.get('/:username', async (req, res, next) => {
       res.status(404).end();
       return;
     }
-    console.log('router added a user just once?');
 
     // send specific user info
     res.status(200).json(user);

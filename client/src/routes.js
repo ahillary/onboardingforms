@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import First from './app/components/formOne';
-import { Second } from './app/components/formTwo';
-import { Third } from './app/components/formThree';
+import Second from './app/components/formTwo';
+import Third from './app/components/formThree';
 import { Confirmation } from './app/components/confirmation';
 import HomePage from './app/components/homePage';
 
