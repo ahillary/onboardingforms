@@ -1,14 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addUserFormTwo } from '../store/user/users';
-import { fetchUser } from '../store/user/userAction';
+import PropTypes from 'prop-types';
+import { Button } from 'antd';
+import { addUserFormTwo, allUsers } from '../store/user/users';
+import { currentUser } from '../store/user/user';
 
-export class Second extends React.Component {
-  constructor() {
-    super();
+class Second extends React.Component {
+  constructor(props) {
+    super(props);
     this.state = {
-      id: '',
       firstName: '',
       lastName: '',
       number: '',
@@ -18,10 +19,14 @@ export class Second extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.loadUser();
+    this.props.seeAllUsers();
+    console.log('users list: ', this.props.userListState);
+
+    // , this.props.match.params.email
+    // console.log('what user? ', this.props.user);
     // id will come from database after backend creates the user with an id
     // id: this.props.user.id,
-    // this.props.loadUser(this.props.match.params.id);
+    // this.props.loadUser(this.props.match.params.email);
   }
 
   handleChange(event) {
@@ -30,7 +35,7 @@ export class Second extends React.Component {
     });
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
     const form = 'two';
     // find user in database
@@ -38,7 +43,7 @@ export class Second extends React.Component {
     //   return 'No one is here';
     // }
     // get id after finding user in database
-    const { firstName, lastName, number } = event;
+    const { firstName, lastName, number } = this.state;
     if (!firstName || !lastName || !number) {
       alert('A required field is missing.');
       return;
@@ -52,7 +57,13 @@ export class Second extends React.Component {
       //
       //
       // add id from backend
-      this.props.putUser(form, firstName, lastName, number);
+      await this.props.putUser(
+        form,
+        firstName,
+        lastName,
+        number
+        // , username
+      );
       // if success axios will send success response
       // with the success redirect to FormThree
     } else {
@@ -61,12 +72,26 @@ export class Second extends React.Component {
     }
   };
 
+  log(props) {
+    console.log('Full list of the props ', props);
+    console.log('Full list of the state ', this.state);
+  }
+
   render() {
     return (
       <div id="forms">
         <header>
           <h1>Page 2 of 3</h1>
         </header>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={() => {
+            this.log(this.props);
+          }}
+        >
+          Props
+        </Button>
         <FormTwo />
       </div>
     );
@@ -105,7 +130,10 @@ const FormTwo = (props) => {
         </div>
         <p />
         <div>
-          <button type="submit">Submit</button>
+          <Link to={`/formThree`}>
+            {/* {this.state.username} */}
+            <button type="submit">Submit</button>
+          </Link>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
@@ -119,27 +147,33 @@ const FormTwo = (props) => {
 };
 
 // container - mapping state and dispatch to props
-
 const mapStateToProps = (state) => {
   return {
-    error: state.user.error,
+    userListState: state.users,
+    username: state.user.username,
+    id: state.user.id,
+    // firstName: state.firstName,
+    // lastName: state.lastName,
+    // number: state.number,
+    error: state.error,
   };
 };
 
-//
-//
-//
-//
-//
-//
-//
-// add id from backend
-const mapDispatchToProps = (dispatch) => ({
-  loadUser: (id) => dispatch(fetchUser(id)),
-  putUser: (form, firstName, lastName, number) =>
-    dispatch(addUserFormTwo(form, firstName, lastName, number)),
-});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadUser: (username) => dispatch(currentUser(username)),
+    putUser: (form, firstName, lastName, number) =>
+      dispatch(addUserFormTwo(form, firstName, lastName, number)),
+    seeAllUsers: () => dispatch(allUsers()),
+  };
+};
 
-connect(mapStateToProps, mapDispatchToProps)(Second);
+export default connect(mapStateToProps, mapDispatchToProps)(Second);
 
-export default Second;
+// checking Prop Types
+Second.propTypes = {
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  number: PropTypes.string,
+  id: PropTypes.number,
+};
