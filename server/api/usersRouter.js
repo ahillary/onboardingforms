@@ -47,8 +47,6 @@ router.get('/', async (req, res, next) => {
 
     // if no user list returns from database inquiry, send 404
     if (!users) return res.status(404).end();
-
-    console.log('router got all users?');
     // send back the list with only the selected info for each user
     res.json(users);
   } catch (error) {
