@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import { addUserFormTwo, allUsers } from '../store/user/users';
 
+// This form is intentionally done differently solely to display another approach
+
 class Second extends React.Component {
   constructor() {
     super();
