@@ -47,6 +47,8 @@ router.get('/', async (req, res, next) => {
 
     // if no user list returns from database inquiry, send 404
     if (!users) return res.status(404).end();
+
+    console.log('router got all users?');
     // send back the list with only the selected info for each user
     res.json(users);
   } catch (error) {
@@ -72,27 +74,6 @@ router.post('/', async (req, res, next) => {
     });
     // send confirmation that the user was added
     res.status(201).json(addedUser);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// PUT - add info to a user
-router.put('/:username', async (req, res, next) => {
-  try {
-    // find the user in the database
-    const user = await User.findOne({
-      where: { username: username },
-    });
-
-    // if cannot find user in database, send 404
-    if (!user) return res.status(404).end();
-
-    // update the user in the database
-    const updatedUser = await user.update(req.body);
-
-    // send confirmation that the user was updated
-    res.status(200).json(updatedUser);
   } catch (error) {
     next(error);
   }
