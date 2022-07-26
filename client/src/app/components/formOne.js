@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Button } from 'antd';
 import { addUserFormOne, allUsers } from '../store/user/users';
-import { currentUser, findThem } from '../store/user/user';
 
 class First extends React.Component {
   constructor() {
@@ -21,6 +21,7 @@ class First extends React.Component {
     this.props.seeAllUsers();
   }
 
+  // every keystroke within the form will update the state
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
@@ -28,7 +29,8 @@ class First extends React.Component {
   }
 
   handleSubmit = async (event) => {
-    event.preventDefault();
+    // if use <button type="submit"> also use:
+    // event.preventDefault();
     const { username, email, password } = this.state;
     if (!email || !password || !username) {
       alert('A required field is missing.');
@@ -36,21 +38,28 @@ class First extends React.Component {
     }
     if (email && password && username) {
       await this.props.addAUser(email, username, password);
-
-      // while it would be ideal to use the user.id to find a user, in the edge case that more than one individual is creating an account simutaneously it would mess up the process with this function as written:
-      // await this.props.findUserId();
-      // therefore, finding the freshly created user in the database using their username is safer
-      await this.props.thisUserIs(username);
-
-      alert(`Welcome aboard, ${username}!`);
-
-      // with the success redirect to FormTwo
-      // window.location.href = `/formTwo`;
     } else {
       alert(`Error with handleSumit`);
       return;
     }
+
+    sessionStorage.setItem('username', username);
+    sessionStorage.setItem('email', email);
+
+    // with the success redirect to FormTwo
+    // window.location.href = `/formTwo`;
   };
+
+  log(props) {
+    console.log('Full list of the props ', props);
+    console.log('Full list of the state ', this.state);
+    console.log(
+      'state username: ',
+      this.state.username,
+      'and session email: ',
+      sessionStorage.getItem('email')
+    );
+  }
 
   render() {
     return (
@@ -58,55 +67,77 @@ class First extends React.Component {
         <header>
           <h1>Page 1 of 3</h1>
         </header>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={() => {
+            this.log(this.props);
+          }}
+        >
+          Props and State
+        </Button>
         <div>
-          <form onSubmit={this.handleSubmit}>
+          <form
+            // instead of using react's onSubmit I added a button using ant design
+            onSubmit={this.handleSubmit}
+          >
             <div>
-              <h3>How do you want to login?</h3>
+              <h3>What do you want to use to login again later?</h3>
             </div>
             <p />
             <div>
-              <label htmlFor="email">
-                <small>Email</small>
-              </label>
+              <label htmlFor="email">Email </label>
+              <br />
               <input
                 name="email"
                 type="text"
                 value={this.state.email}
+                placeholder="Ex: hello@there.org"
                 onChange={this.handleChange}
               />
             </div>
             <p />
             <div>
-              <label htmlFor="username">
-                <small>Username</small>
-              </label>
+              <label htmlFor="username">Username </label>
+              <br />
               <input
                 name="username"
                 type="text"
                 value={this.state.username}
+                placeholder="Ex: TheCakeIsALie"
                 onChange={this.handleChange}
               />
             </div>
             <p />
             <div>
-              <label htmlFor="password">
-                <small>Password</small>
-              </label>
+              <label htmlFor="password">Password </label>
+              <br />
               <input
                 name="password"
                 type="password"
                 value={this.state.password}
+                placeholder="ssshhhh keep this secret"
                 onChange={this.handleChange}
               />
             </div>
             <p />
             <div>
-              <Link
+              <Button
+                variant="contained"
+                size="small"
+                onClick={() => {
+                  this.handleSubmit(this.state);
+                }}
+              >
+                Submit
+              </Button>
+              <Button type="link">Button type=Link. EXPLORE THIS?</Button>
+              {/* <Link
                 to={`/formTwo`}
                 // take te state to the form {...this.state}
               >
                 <button type="submit">Submit</button>
-              </Link>
+              </Link> */}
             </div>
           </form>
           <div>
@@ -122,19 +153,14 @@ class First extends React.Component {
 // container, mapping state and dispatch to props
 const mapStateToProps = (state) => {
   return {
-    userListState: state.users,
-    email: state.user.email,
-    username: state.user.username,
-    id: state.user.id,
+    userList: state.users,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addAUser: (form, email, username, password) =>
-      dispatch(addUserFormOne(form, email, username, password)),
-    thisUserIs: (username) => dispatch(currentUser(username)),
-    // findUserId: () => dispatch(findThem()),
+    addAUser: (email, username, password) =>
+      dispatch(addUserFormOne(email, username, password)),
     seeAllUsers: () => dispatch(allUsers()),
   };
 };
@@ -143,8 +169,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(First);
 
 // checking Prop Types
 First.propTypes = {
-  email: PropTypes.string,
-  username: PropTypes.string,
   userListState: PropTypes.array,
-  id: PropTypes.number,
 };
