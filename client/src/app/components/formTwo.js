@@ -4,15 +4,16 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import { addUserFormTwo, allUsers } from '../store/user/users';
-import { currentUser } from '../store/user/user';
 
 class Second extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       firstName: '',
       lastName: '',
       number: '',
+      username: sessionStorage.getItem('username'),
+      email: sessionStorage.getItem('email'),
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,15 +21,9 @@ class Second extends React.Component {
 
   componentDidMount() {
     this.props.seeAllUsers();
-    console.log('users list: ', this.props.userListState);
-
-    // , this.props.match.params.email
-    // console.log('what user? ', this.props.user);
-    // id will come from database after backend creates the user with an id
-    // id: this.props.user.id,
-    // this.props.loadUser(this.props.match.params.email);
   }
 
+  // every keystroke within the form will update the state
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
@@ -37,44 +32,37 @@ class Second extends React.Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
-    const form = 'two';
-    // find user in database
-    // if (!user) {
-    //   return 'No one is here';
-    // }
-    // get id after finding user in database
-    const { firstName, lastName, number } = this.state;
+
+    const { firstName, lastName, number, username } = this.state;
     if (!firstName || !lastName || !number) {
       alert('A required field is missing.');
       return;
     }
     if (firstName && lastName && number) {
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      // add id from backend
-      await this.props.putUser(
-        form,
-        firstName,
-        lastName,
-        number
-        // , username
-      );
-      // if success axios will send success response
-      // with the success redirect to FormThree
+      await this.props.putUser(username, firstName, lastName, number);
     } else {
       alert(`Error with handleSumit`);
       return;
     }
+
+    sessionStorage.setItem('firstName', firstName);
+    sessionStorage.setItem('lastName', lastName);
+    sessionStorage.setItem('number', number);
+
+    // with the success redirect to FormThree
   };
 
   log(props) {
     console.log('Full list of the props ', props);
     console.log('Full list of the state ', this.state);
+    console.log(
+      'session email: ',
+      sessionStorage.getItem('email'),
+      'session firstName: ',
+      sessionStorage.getItem('firstName'),
+      'state username: ',
+      this.state.username
+    );
   }
 
   render() {
@@ -90,50 +78,72 @@ class Second extends React.Component {
             this.log(this.props);
           }}
         >
-          Props
+          Props and State
         </Button>
-        <FormTwo />
+        <FormTwo
+          {...this.state}
+          change={this.handleChange}
+          submit={this.handleSubmit}
+        />
       </div>
     );
   }
 }
 
-const FormTwo = (props) => {
-  const { handleSubmit, error } = props;
-
+const FormTwo = (data) => {
+  const { submit, change, firstName, lastName, number, error } = data;
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={submit}>
         <div>
           <h3>What's your name and number?</h3>
         </div>
         <p />
         <div>
-          <label htmlFor="firstName">
-            <small>First Name</small>
-          </label>
-          <input name="firstName" type="text" />
+          <label htmlFor="firstName">First Name</label>
+          <br />
+          <input
+            name="firstName"
+            type="text"
+            value={firstName}
+            placeholder="Ex: Ned"
+            onChange={change}
+          />
         </div>
         <p />
         <div>
-          <label htmlFor="lastName">
-            <small>Last Name</small>
-          </label>
-          <input name="lastName" type="text" />
+          <label htmlFor="lastName">Last Name</label>
+          <br />
+          <input
+            name="lastName"
+            type="text"
+            value={lastName}
+            placeholder="Ex: Flanders"
+            onChange={change}
+          />
         </div>
         <p />
         <div>
           <label htmlFor="number">
-            <small>Number</small>
+            Phone number
+            <br />
+            Enter ten digits without any spaces, dashes, or other symbols
           </label>
-          <input name="number" type="text" />
+          <br />
+          <input
+            name="number"
+            type="text"
+            value={number}
+            placeholder="Ex: 5558675309"
+            onChange={change}
+          />
         </div>
         <p />
         <div>
-          <Link to={`/formThree`}>
-            {/* {this.state.username} */}
-            <button type="submit">Submit</button>
-          </Link>
+          {/* <Link to={`/formThree`}> */}
+          {/* {this.state.username} */}
+          <button type="submit">Submit</button>
+          {/* </Link> */}
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
@@ -149,21 +159,15 @@ const FormTwo = (props) => {
 // container - mapping state and dispatch to props
 const mapStateToProps = (state) => {
   return {
-    userListState: state.users,
-    username: state.user.username,
-    id: state.user.id,
-    // firstName: state.firstName,
-    // lastName: state.lastName,
-    // number: state.number,
+    userList: state.users,
     error: state.error,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadUser: (username) => dispatch(currentUser(username)),
-    putUser: (form, firstName, lastName, number) =>
-      dispatch(addUserFormTwo(form, firstName, lastName, number)),
+    putUser: (username, firstName, lastName, number) =>
+      dispatch(addUserFormTwo(username, firstName, lastName, number)),
     seeAllUsers: () => dispatch(allUsers()),
   };
 };
@@ -172,8 +176,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(Second);
 
 // checking Prop Types
 Second.propTypes = {
-  firstName: PropTypes.string,
-  lastName: PropTypes.string,
-  number: PropTypes.string,
-  id: PropTypes.number,
+  userListState: PropTypes.array,
 };
