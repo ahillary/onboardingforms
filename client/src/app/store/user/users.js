@@ -48,10 +48,10 @@ export const addUserFormOne =
 
 // form two
 export const addUserFormTwo =
-  (form, id, firstName, lastName, number) => async (dispatch) => {
+  (username, firstName, lastName, number) => async (dispatch) => {
     let res;
     try {
-      res = await axios.put(`${apiUrl}/api/users/${id}`, form, {
+      res = await axios.put(`${apiUrl}/api/user/${username}`, {
         firstName,
         lastName,
         number,
@@ -61,6 +61,7 @@ export const addUserFormTwo =
       //   return dispatch(putUser({ error: updateError }));
       // }
       // try {
+
       dispatch(putUser(res.data));
       // history.push('/home');
     } catch (dispatchOrHistoryErr) {
