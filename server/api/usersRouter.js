@@ -2,7 +2,7 @@ const router = require('express').Router();
 const User = require('../db/models/user');
 const { connect } = require('../db');
 
-// GET /users/:username - find a specific user
+// GET /users/:username - find a specific user by username
 router.get('/:username', async (req, res, next) => {
   try {
     // get just the username out of the uri request
@@ -51,29 +51,6 @@ router.get('/', async (req, res, next) => {
     console.log('router got all users?');
     // send back the list with only the selected info for each user
     res.json(users);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// POST /users - add a new user
-router.post('/', async (req, res, next) => {
-  try {
-    // make sure there is both a username and email
-    if (!req.body.username || !req.body.email) {
-      let error = new Error();
-      error.status = 400;
-      throw error;
-    }
-
-    // add new user to database
-    const addedUser = await User.create({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-    });
-    // send confirmation that the user was added
-    res.status(201).json(addedUser);
   } catch (error) {
     next(error);
   }
