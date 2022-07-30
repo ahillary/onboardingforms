@@ -92,17 +92,13 @@ router.put('/:email', async (req, res, next) => {
     const user = await User.findOne({
       where: { email: email },
     });
-    console.log('found user: ', user);
-    console.log('user id: ', user.dataValues.id);
 
     // if cannot find user in database, send 404
     if (!user) return res.status(404).end();
-    console.log('third see me');
 
     // update the user in the database
     const updatedUser = await user.update(req.body);
-    // const updatedUser = await user.update((user.lastName = req.body.lastName));
-    console.log('fourth see me');
+
     // send confirmation that the user was updated
     res.status(200).json(updatedUser);
   } catch (error) {
