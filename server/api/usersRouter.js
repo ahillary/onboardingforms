@@ -37,18 +37,12 @@ router.get('/', async (req, res, next) => {
   try {
     const users = await User.findAll({
       // Explicitly select the desired fields - even though users' passwords are encrypted, it is unnecessary to view here. Additionally, it's poor practice to just send everything to anyone who asks.
-      attributes: [
-        'id',
-        'email',
-        'username',
-        // , 'firstName', 'lastName'
-      ],
+      attributes: ['id', 'email', 'username', , 'firstName', 'lastName'],
     });
 
     // if no user list returns from database inquiry, send 404
     if (!users) return res.status(404).end();
 
-    console.log('router got all users?');
     // send back the list with only the selected info for each user
     res.json(users);
   } catch (error) {
