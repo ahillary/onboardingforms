@@ -31,7 +31,7 @@ export const addUserFormOne =
   (email, username, password) => async (dispatch) => {
     let res;
     try {
-      res = await axios.post(`${apiUrl}/api/users`, {
+      res = await axios.post(`${apiUrl}/api/user`, {
         email,
         username,
         password,
@@ -48,20 +48,20 @@ export const addUserFormOne =
 
 // form two
 export const addUserFormTwo =
-  (username, firstName, lastName, number) => async (dispatch) => {
+  (email, firstName, lastName, number) => async (dispatch) => {
     let res;
     try {
-      res = await axios.put(`${apiUrl}/api/user/${username}`, {
+      res = await axios.put(`${apiUrl}/api/user/${email}`, {
         firstName,
         lastName,
         number,
       });
+      console.log('axios after: ', res.data);
       // } catch (updateError) {
       //   console.error(`form 2 thunk first catch: ${updateError}`);
       //   return dispatch(putUser({ error: updateError }));
       // }
       // try {
-
       dispatch(putUser(res.data));
       // history.push('/home');
     } catch (dispatchOrHistoryErr) {
@@ -71,15 +71,16 @@ export const addUserFormTwo =
 
 // form three
 export const addUserFormThree =
-  (form, id, streetAddress, city, state, zipCode) => async (dispatch) => {
+  (email, streetAddress, city, state, zipCode) => async (dispatch) => {
     let res;
     try {
-      res = await axios.put(`${apiUrl}/api/users/${id}`, form, {
+      res = await axios.put(`${apiUrl}/api/user/${email}`, {
         streetAddress,
         city,
         state,
         zipCode,
       });
+
       // } catch (updateError) {
       //   console.error(`form 3 thunk first catch: ${updateError}`);
       //   return dispatch(putUser({ error: updateError }));
