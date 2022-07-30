@@ -56,7 +56,6 @@ export const addUserFormTwo =
         lastName,
         number,
       });
-      console.log('axios after: ', res.data);
       // } catch (updateError) {
       //   console.error(`form 2 thunk first catch: ${updateError}`);
       //   return dispatch(putUser({ error: updateError }));
