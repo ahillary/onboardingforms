@@ -35,13 +35,13 @@ class Second extends React.Component {
   handleSubmit = async (event) => {
     event.preventDefault();
 
-    const { firstName, lastName, number, username } = this.state;
+    const { firstName, lastName, number, email } = this.state;
     if (!firstName || !lastName || !number) {
       alert('A required field is missing.');
       return;
     }
     if (firstName && lastName && number) {
-      await this.props.putUser(username, firstName, lastName, number);
+      await this.props.putUser(email, firstName, lastName, number);
     } else {
       alert(`Error with handleSumit`);
       return;
@@ -168,8 +168,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    putUser: (username, firstName, lastName, number) =>
-      dispatch(addUserFormTwo(username, firstName, lastName, number)),
+    putUser: (email, firstName, lastName, number) =>
+      dispatch(addUserFormTwo(email, firstName, lastName, number)),
     seeAllUsers: () => dispatch(allUsers()),
   };
 };
