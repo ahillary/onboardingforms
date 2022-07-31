@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { Button } from 'antd';
-import { addUserFormOne, allUsers } from '../store/user/users';
+import { addUserFormOne } from '../store/user/users';
 
 class First extends React.Component {
   constructor() {
@@ -17,9 +16,7 @@ class First extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    this.props.seeAllUsers();
-  }
+  componentDidMount() {}
 
   // every keystroke within the form will update the state
   handleChange(event) {
@@ -37,29 +34,20 @@ class First extends React.Component {
       return;
     }
     if (email && password && username) {
-      await this.props.addAUser(email, username, password);
+      // await this.props.addAUser(email, username, password);
+
+      // set session store with entered information
+      sessionStorage.setItem('username', username);
+      sessionStorage.setItem('email', email);
+      sessionStorage.setItem('password', this.state.password);
+
+      // go to FormTwo
+      window.location.href = `/formTwo`;
     } else {
       alert(`Error with handleSumit`);
       return;
     }
-
-    sessionStorage.setItem('username', username);
-    sessionStorage.setItem('email', email);
-
-    // with the success redirect to FormTwo
-    // window.location.href = `/formTwo`;
   };
-
-  log(props) {
-    console.log('Full list of the props ', props);
-    console.log('Full list of the state ', this.state);
-    console.log(
-      'state username: ',
-      this.state.username,
-      'and session email: ',
-      sessionStorage.getItem('email')
-    );
-  }
 
   render() {
     return (
@@ -67,22 +55,13 @@ class First extends React.Component {
         <header>
           <h1>Page 1 of 3</h1>
         </header>
-        <Button
-          variant="contained"
-          size="small"
-          onClick={() => {
-            this.log(this.props);
-          }}
-        >
-          Props and State
-        </Button>
         <div>
           <form
             // instead of using react's onSubmit I added a button using ant design
             onSubmit={this.handleSubmit}
           >
             <div>
-              <h3>What do you want to use to login again later?</h3>
+              <h3>Let's create your login</h3>
             </div>
             <p />
             <div>
@@ -116,7 +95,7 @@ class First extends React.Component {
                 name="password"
                 type="password"
                 value={this.state.password}
-                placeholder="ssshhhh keep this secret"
+                placeholder="ssshhhh it's a secret"
                 onChange={this.handleChange}
               />
             </div>
@@ -131,7 +110,7 @@ class First extends React.Component {
               >
                 Submit
               </Button>
-              <Button type="link">Button type=Link. EXPLORE THIS?</Button>
+              {/* <Button type="link">Button type=Link. EXPLORE THIS?</Button> */}
               {/* <Link
                 to={`/formTwo`}
                 // take te state to the form {...this.state}
@@ -141,33 +120,22 @@ class First extends React.Component {
             </div>
           </form>
           <div>
-            <p /> <Link to="/formTwo">See next page without submitting</Link>
+            {/* clear session store with this exit */}
+            <p /> <Link to="/">Exit to Home Page</Link>
           </div>
-          <p /> <Link to="/">Exit to Home Page</Link>
         </div>
       </div>
     );
   }
 }
 
-// container, mapping state and dispatch to props
-const mapStateToProps = (state) => {
-  return {
-    userList: state.users,
-  };
-};
+// mapping dispatch to props
 
 const mapDispatchToProps = (dispatch) => {
   return {
     addAUser: (email, username, password) =>
       dispatch(addUserFormOne(email, username, password)),
-    seeAllUsers: () => dispatch(allUsers()),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(First);
-
-// checking Prop Types
-First.propTypes = {
-  userListState: PropTypes.array,
-};
+export default connect(null, mapDispatchToProps)(First);
