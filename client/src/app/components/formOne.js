@@ -26,8 +26,7 @@ class First extends React.Component {
   }
 
   handleSubmit = async (event) => {
-    // if use <button type="submit"> also use:
-    // event.preventDefault();
+    event.preventDefault();
     const { username, email, password } = this.state;
     if (!email || !password || !username) {
       alert('A required field is missing.');
