@@ -17,6 +17,7 @@ export class Third extends React.Component {
       number: sessionStorage.getItem('number'),
       username: sessionStorage.getItem('username'),
       email: sessionStorage.getItem('email'),
+      password: sessionStorage.getItem('password'),
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -39,57 +40,41 @@ export class Third extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-
     var { state } = this.state;
     if (state === 'Province') {
       state = this.state.province;
     }
-    const { email, streetAddress, city, zipCode } = this.state;
+    const { streetAddress, city, zipCode } = this.state;
 
     if (!streetAddress || !city || !state || !zipCode) {
       alert('A required field is missing.');
       return;
     }
     if (streetAddress && city && state && zipCode) {
-      this.props.putUser(email, streetAddress, city, state, zipCode);
+      // this.props.putUser(email, streetAddress, city, state, zipCode);
+
+      sessionStorage.setItem('streetAddress', streetAddress);
+      sessionStorage.setItem('city', city);
+      sessionStorage.setItem('state', state);
+      sessionStorage.setItem('zipCode', zipCode);
+
+      window.location.href = `/confirmation`;
     } else {
       alert(`Error with handleSumit`);
       return;
     }
-
-    sessionStorage.setItem('streetAddress', streetAddress);
-    sessionStorage.setItem('city', city);
-    sessionStorage.setItem('state', state);
-    sessionStorage.setItem('zipCode', zipCode);
-
-    // with success redirect to confirmation page
   };
 
-  log(props) {
-    console.log('Full list of the props ', props);
-    console.log('Full list of the state ', this.state);
-  }
-
   render() {
-    const { error } = this.state;
     return (
       <div id="forms">
         <header>
           <h1>Page 3 of 3</h1>
         </header>
-        <Button
-          variant="contained"
-          size="small"
-          onClick={() => {
-            this.log(this.props);
-          }}
-        >
-          Props and State
-        </Button>
         <div>
           <form onSubmit={this.handleSubmit}>
             <div>
-              <h3>What's your contact address?</h3>
+              <h3>What's your physical address?</h3>
             </div>
             <p />
             <div>
@@ -124,6 +109,7 @@ export class Third extends React.Component {
                 value={this.state.state}
                 onChange={this.handleChange}
               >
+                <option value="">Select One</option>
                 <option value="AK">AK</option>
                 <option value="AL">AL</option>
                 <option value="AR">AR</option>
@@ -207,15 +193,12 @@ export class Third extends React.Component {
             </div>
             <p />
             <div>
-              <button type="submit">Finalize</button>
+              <button type="submit">Submit</button>
             </div>
-            {error && error.response && <div> {error.response.data} </div>}
           </form>
         </div>
         <div id="forms">
-          <p /> <Link to="/confirmation">Finish</Link>
-          <p /> <Link to="/formTwo">Go back without submitting</Link>
-          <p /> <Link to="/formOne">Start Over</Link>
+          {/* clear session store with this exit */}
           <p /> <Link to="/">Exit to Home Page</Link>
         </div>
       </div>
@@ -223,17 +206,11 @@ export class Third extends React.Component {
   }
 }
 
-// container - mapping state and dispatch to props
-
-const mapStateToProps = (state) => {
-  return {
-    error: state.error,
-  };
-};
+// map dispatch to props
 
 const mapDispatchToProps = (dispatch) => ({
   putUser: (email, streetAddress, city, state, zipCode) =>
     dispatch(addUserFormThree(email, streetAddress, city, state, zipCode)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Third);
+export default connect(null, mapDispatchToProps)(Third);
