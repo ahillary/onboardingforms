@@ -3,7 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import First from './app/components/formOne';
 import Second from './app/components/formTwo';
 import Third from './app/components/formThree';
-import { Confirmation } from './app/components/confirmation';
+import Confirmation from './app/components/confirmation';
+import { Success } from './app/components/success';
 import HomePage from './app/components/homePage';
 
 class TheRoutes extends Component {
@@ -16,6 +17,7 @@ class TheRoutes extends Component {
         <Route exact path="/formTwo" element={<Second />} />
         <Route exact path="/formThree" element={<Third />} />
         <Route path="/confirmation" element={<Confirmation />} />
+        <Route path="/success" element={<Success />} />
       </Routes>
       // </BrowserRouter>
     );
