@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { Button } from 'antd';
-import { addUserFormTwo, allUsers } from '../store/user/users';
+import { addUserFormTwo } from '../store/user/users';
 
 // This form is intentionally done differently solely to display another approach to React components
 
@@ -16,14 +15,13 @@ class Second extends React.Component {
       number: '',
       username: sessionStorage.getItem('username'),
       email: sessionStorage.getItem('email'),
+      password: sessionStorage.getItem('password'),
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    this.props.seeAllUsers();
-  }
+  componentDidMount() {}
 
   // every keystroke within the form will update the state
   handleChange(event) {
@@ -35,37 +33,24 @@ class Second extends React.Component {
   handleSubmit = async (event) => {
     event.preventDefault();
 
-    const { firstName, lastName, number, email } = this.state;
+    const { firstName, lastName, number } = this.state;
     if (!firstName || !lastName || !number) {
       alert('A required field is missing.');
       return;
     }
     if (firstName && lastName && number) {
-      await this.props.putUser(email, firstName, lastName, number);
+      // await this.props.putUser(email, firstName, lastName, number);
+      sessionStorage.setItem('firstName', firstName);
+      sessionStorage.setItem('lastName', lastName);
+      sessionStorage.setItem('number', number);
+
+      // go to FormThree
+      window.location.href = `/formThree`;
     } else {
       alert(`Error with handleSumit`);
       return;
     }
-
-    sessionStorage.setItem('firstName', firstName);
-    sessionStorage.setItem('lastName', lastName);
-    sessionStorage.setItem('number', number);
-
-    // with the success redirect to FormThree
   };
-
-  log(props) {
-    console.log('Full list of the props ', props);
-    console.log('Full list of the state ', this.state);
-    console.log(
-      'session email: ',
-      sessionStorage.getItem('email'),
-      'session firstName: ',
-      sessionStorage.getItem('firstName'),
-      'state username: ',
-      this.state.username
-    );
-  }
 
   render() {
     return (
@@ -73,15 +58,6 @@ class Second extends React.Component {
         <header>
           <h1>Page 2 of 3</h1>
         </header>
-        <Button
-          variant="contained"
-          size="small"
-          onClick={() => {
-            this.log(this.props);
-          }}
-        >
-          Props and State
-        </Button>
         <FormTwo
           {...this.state}
           change={this.handleChange}
@@ -93,7 +69,7 @@ class Second extends React.Component {
 }
 
 const FormTwo = (data) => {
-  const { submit, change, firstName, lastName, number, error } = data;
+  const { submit, change, firstName, lastName, number } = data;
   return (
     <div>
       <form onSubmit={submit}>
@@ -142,41 +118,24 @@ const FormTwo = (data) => {
         </div>
         <p />
         <div>
-          {/* <Link to={`/formThree`}> */}
-          {/* {this.state.username} */}
           <button type="submit">Submit</button>
-          {/* </Link> */}
         </div>
-        {error && error.response && <div> {error.response.data} </div>}
       </form>
       <div>
-        <p /> <Link to="/formThree">See next page without submitting</Link>
-        <p /> <Link to="/formOne">Go back without submitting</Link>
+        {/* clear session store with this exit */}
         <p /> <Link to="/">Exit to Home Page</Link>
       </div>
     </div>
   );
 };
 
-// container - mapping state and dispatch to props
-const mapStateToProps = (state) => {
-  return {
-    userList: state.users,
-    error: state.error,
-  };
-};
+// map dispatch to props
 
 const mapDispatchToProps = (dispatch) => {
   return {
     putUser: (email, firstName, lastName, number) =>
       dispatch(addUserFormTwo(email, firstName, lastName, number)),
-    seeAllUsers: () => dispatch(allUsers()),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Second);
-
-// checking Prop Types
-Second.propTypes = {
-  userListState: PropTypes.array,
-};
+export default connect(null, mapDispatchToProps)(Second);
