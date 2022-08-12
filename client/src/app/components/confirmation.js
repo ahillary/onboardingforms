@@ -65,46 +65,33 @@ class Confirmation extends React.Component {
     try {
       this.props.addAUser(
         email,
-        streetAddress,
-        city,
-        state,
-        zipCode,
+        username,
+        password,
         firstName,
         lastName,
         number,
-        username,
-        password
+        streetAddress,
+        city,
+        state,
+        zipCode
       );
 
+      // clear session store except first name
+
       // with success redirect to confirmation page
-      // window.location.href = `/success`;
+      window.location.href = `/success`;
     } catch {
       alert(`Error with handleSumit`);
       return;
     }
   };
 
-  log(props) {
-    console.log('Full list of the props ', props);
-    console.log('Full list of the state ', this.state);
-  }
-
   render() {
-    console.log('see me: ', this.props);
     return (
       <div id="forms">
         <header>
           <h1>Everything look good?</h1>
         </header>
-        <Button
-          variant="contained"
-          size="small"
-          onClick={() => {
-            this.log(this.props);
-          }}
-        >
-          Props and State
-        </Button>
         <div>
           <form onSubmit={this.handleSubmit}>
             <div>
@@ -213,6 +200,7 @@ class Confirmation extends React.Component {
           </form>
         </div>
         <div id="forms">
+          {/* clear session store with this exit */}
           <p /> <Link to="/">Exit to Home Page</Link>
         </div>
       </div>
