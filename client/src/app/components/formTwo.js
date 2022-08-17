@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'antd';
+import toast, { Toaster } from 'react-hot-toast';
 import { addUserFormTwo } from '../store/user/users';
 
 // This form is intentionally done differently, solely to display another approach to React components
@@ -30,16 +31,21 @@ class Second extends React.Component {
     });
   }
 
+  notify = (missingVariable) =>
+    toast(`A required field is missing. You must enter a ${missingVariable}.`);
+
   handleSubmit = async (event) => {
     event.preventDefault();
 
     const { firstName, lastName, number } = this.state;
     if (!firstName || !lastName || !number) {
-      alert('A required field is missing.');
+      if (!firstName) this.notify('first name');
+      if (!lastName) this.notify('last name');
+      if (!number) this.notify('phone number');
       return;
     }
     if (firstName && lastName && number) {
-      // await this.props.putUser(email, firstName, lastName, number);
+      // add to the session storage items instead of adding to a database line item that would have been created on the first page, by using this code: await this.props.putUser(email, firstName, lastName, number);
 
       // set session store items with entered information
       sessionStorage.setItem('firstName', firstName);
@@ -82,10 +88,10 @@ class Second extends React.Component {
 const FormTwo = (data) => {
   const { submit, change, clear, firstName, lastName, number } = data;
   return (
-    <div>
+    <div id="forms">
       <div>
         <form onSubmit={submit}>
-          <div>
+          <div id="title">
             <h3>What's your name and number?</h3>
           </div>
           <p />
@@ -117,8 +123,10 @@ const FormTwo = (data) => {
             <label htmlFor="number">
               Phone number
               <br />
-              Enter ten digits without any spaces, dashes, or other symbols.
-              Example: 5558675309
+              <div id="instructions">
+                Enter ten digits without any spaces, dashes, or other symbols.
+                Example: 5558675309
+              </div>
             </label>
             <br />
             <input
@@ -133,6 +141,7 @@ const FormTwo = (data) => {
           <div>
             <button type="submit">Submit</button>
           </div>
+          <Toaster />
         </form>
       </div>
       <div id="nav">
