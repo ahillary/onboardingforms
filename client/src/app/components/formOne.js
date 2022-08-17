@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'antd';
+import toast, { Toaster } from 'react-hot-toast';
 import { addUserFormOne } from '../store/user/users';
 
 class First extends React.Component {
@@ -25,16 +26,25 @@ class First extends React.Component {
     });
   }
 
+  notify = (missingVariable) =>
+    toast(`A required field is missing. You must enter a ${missingVariable}.`);
+
   handleSubmit = async (event) => {
     event.preventDefault();
 
     const { username, email, password } = this.state;
     if (!email || !password || !username) {
-      alert('A required field is missing.');
+      if (!email) this.notify('valid email address');
+      if (!password) {
+        this.notify('password');
+      }
+      if (!username) {
+        this.notify('username');
+      }
       return;
     }
     if (email && password && username) {
-      // await this.props.addAUser(email, username, password);
+      // Create session storage items instead of adding to the database on the first page using this code: await this.props.addAUser(email, username, password);
 
       // set session store items with entered information
       sessionStorage.setItem('username', username);
@@ -63,7 +73,7 @@ class First extends React.Component {
         </header>
         <div>
           <form onSubmit={this.handleSubmit}>
-            <div>
+            <div id="title">
               <h3>Let's create your login</h3>
             </div>
             <p />
@@ -113,6 +123,7 @@ class First extends React.Component {
                 <button type="submit">Submit</button>
               </Link> */}
             </div>
+            <Toaster />
           </form>
         </div>
         <div id="nav">
