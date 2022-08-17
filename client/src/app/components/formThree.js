@@ -41,15 +41,7 @@ export class Third extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    // get the variable named state from this.state
-    var { state } = this.state;
-
-    // if the user lives in a province, save their form entered data in the variable named state
-    if (state === 'Province') {
-      state = this.state.province;
-    }
-
-    const { streetAddress, city, zipCode } = this.state;
+    const { state, streetAddress, city, zipCode } = this.state;
     if (!streetAddress || !city || !state || !zipCode) {
       alert('A required field is missing.');
       return;
