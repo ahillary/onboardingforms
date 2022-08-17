@@ -32,19 +32,21 @@ class Second extends React.Component {
   }
 
   notify = (missingVariable) =>
-    toast(`A required field is missing. You must enter a ${missingVariable}.`);
+    toast(
+      `A required field is missing. You must enter a valid ${missingVariable}.`
+    );
 
   handleSubmit = async (event) => {
     event.preventDefault();
 
     const { firstName, lastName, number } = this.state;
-    if (!firstName || !lastName || !number) {
-      if (!firstName) this.notify('first name');
-      if (!lastName) this.notify('last name');
-      if (!number) this.notify('phone number');
+    if (!firstName || !lastName || !number || number.length !== 10) {
+      if (!firstName || firstName.length < 2) this.notify('first name');
+      if (!lastName || lastName.length < 2) this.notify('last name');
+      if (!number || number.length !== 10) this.notify('phone number');
       return;
     }
-    if (firstName && lastName && number) {
+    if (firstName.length > 1 && lastName.length > 1 && number.length === 10) {
       // add to the session storage items instead of adding to a database line item that would have been created on the first page, by using this code: await this.props.putUser(email, firstName, lastName, number);
 
       // set session store items with entered information
@@ -124,8 +126,8 @@ const FormTwo = (data) => {
               Phone number
               <br />
               <div id="instructions">
-                Enter ten digits without any spaces, dashes, or other symbols.
-                Example: 5558675309
+                Enter your ten digit phone number without any spaces, dashes, or
+                other symbols. Example: 5558675309
               </div>
             </label>
             <br />
