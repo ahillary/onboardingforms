@@ -10,6 +10,8 @@ To begin testing:
 
 -In the server directory, run `npm install`. Then run `npm run start-dev` to start your Express app and view it in your browser at [http://localhost:4000](http://localhost:4000)
 
+Alerts use [react-hot-toast](https://react-hot-toast.com/docs)
+
 ### Deployment
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
