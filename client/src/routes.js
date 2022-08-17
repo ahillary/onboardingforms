@@ -4,7 +4,7 @@ import First from './app/components/formOne';
 import Second from './app/components/formTwo';
 import Third from './app/components/formThree';
 import Confirmation from './app/components/confirmation';
-import { Success } from './app/components/success';
+import Success from './app/components/success';
 import HomePage from './app/components/homePage';
 
 class TheRoutes extends Component {
