@@ -26,23 +26,39 @@ class First extends React.Component {
     });
   }
 
-  notify = (missingVariable) =>
-    toast(`A required field is missing. You must enter a ${missingVariable}.`);
+  notifyMissing = (missingVariable) =>
+    toast(
+      `A required field is missing. You must enter a valid ${missingVariable}.`
+    );
 
   handleSubmit = async (event) => {
     event.preventDefault();
 
     const { username, email, password } = this.state;
+
+    // There is no need to validate these entries except checking against already exisiting data (email and username) in the database to avoid duplicate accounts.
+    // Validating for an accurate email address will not catch common typos or prevent users from intentially entering invalid/made-up email addresses. To validate an email address, the ideal way is to send a confirmation email and have the user confirm. This is the most secure and ethical (e.g. a user cannot sign someone up to a service without permission).
     if (!email || !password || !username) {
-      if (!email) this.notify('valid email address');
+      if (!email) this.notifyMissing('email');
       if (!password) {
-        this.notify('password');
+        this.notifyMissing('password');
       }
       if (!username) {
-        this.notify('username');
+        this.notifyMissing('username');
       }
       return;
     }
+
+    // check database for email address
+    // check database for username
+    // toast message that it is already in the database
+    // return
+
+    if (password.length < 6) {
+      toast(`Please create a more secure password`);
+      return;
+    }
+
     if (email && password && username) {
       // Create session storage items instead of adding to the database on the first page using this code: await this.props.addAUser(email, username, password);
 
