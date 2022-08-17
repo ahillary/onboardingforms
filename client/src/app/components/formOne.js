@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import { addUserFormOne } from '../store/user/users';
 
@@ -14,6 +13,7 @@ class First extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.ClearSession = this.ClearSession.bind(this);
   }
 
   componentDidMount() {}
@@ -27,6 +27,7 @@ class First extends React.Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
+
     const { username, email, password } = this.state;
     if (!email || !password || !username) {
       alert('A required field is missing.');
@@ -35,17 +36,23 @@ class First extends React.Component {
     if (email && password && username) {
       // await this.props.addAUser(email, username, password);
 
-      // set session store with entered information
+      // set session store items with entered information
       sessionStorage.setItem('username', username);
       sessionStorage.setItem('email', email);
       sessionStorage.setItem('password', this.state.password);
 
-      // go to FormTwo
+      // go to formTwo page
       window.location.href = `/formTwo`;
     } else {
       alert(`Error with handleSumit`);
       return;
     }
+  };
+
+  ClearSession = () => {
+    sessionStorage.clear();
+    // go to Home page
+    window.location.href = `/`;
   };
 
   render() {
@@ -55,10 +62,7 @@ class First extends React.Component {
           <h1>Page 1 of 3</h1>
         </header>
         <div>
-          <form
-            // instead of using react's onSubmit I added a button using ant design
-            onSubmit={this.handleSubmit}
-          >
+          <form onSubmit={this.handleSubmit}>
             <div>
               <h3>Let's create your login</h3>
             </div>
@@ -100,15 +104,7 @@ class First extends React.Component {
             </div>
             <p />
             <div>
-              <Button
-                variant="contained"
-                size="small"
-                onClick={() => {
-                  this.handleSubmit(this.state);
-                }}
-              >
-                Submit
-              </Button>
+              <button type="submit">Submit</button>
               {/* <Button type="link">Button type=Link. EXPLORE THIS?</Button> */}
               {/* <Link
                 to={`/formTwo`}
@@ -118,10 +114,19 @@ class First extends React.Component {
               </Link> */}
             </div>
           </form>
-          <div>
-            {/* clear session store with this exit */}
-            <p /> <Link to="/">Exit to Home Page</Link>
-          </div>
+        </div>
+        <div id="nav">
+          <p />
+          {/* clears session store with this exit */}
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => {
+              this.ClearSession();
+            }}
+          >
+            Exit to Home Page
+          </Button>
         </div>
       </div>
     );
