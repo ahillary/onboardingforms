@@ -31,22 +31,42 @@ class Second extends React.Component {
     });
   }
 
-  notify = (missingVariable) =>
+  notifyMissing = (missingVariable) =>
     toast(
       `A required field is missing. You must enter a valid ${missingVariable}.`
     );
+  notifyWrong = (missingVariable) =>
+    toast(`You must enter a valid ${missingVariable}`);
 
   handleSubmit = async (event) => {
     event.preventDefault();
 
     const { firstName, lastName, number } = this.state;
-    if (!firstName || !lastName || !number || number.length !== 10) {
-      if (!firstName || firstName.length < 2) this.notify('first name');
-      if (!lastName || lastName.length < 2) this.notify('last name');
-      if (!number || number.length !== 10) this.notify('phone number');
+
+    if (
+      !firstName ||
+      firstName.length < 2 ||
+      !lastName ||
+      lastName.length < 2 ||
+      !number ||
+      number.length !== 10
+    ) {
+      if (!firstName) this.notifyMissing('first name');
+      if (firstName.length < 2) this.notifyWrong('first name');
+      if (!lastName) this.notifyMissing('last name');
+      if (lastName.length < 2) this.notifyWrong('last name');
+      if (!number) this.notifyMissing('phone number');
+      if (number.length !== 10) this.notifyWrong('phone number');
       return;
     }
-    if (firstName.length > 1 && lastName.length > 1 && number.length === 10) {
+
+    // any number starting with 555 is invalid
+    if (number[0] === 5 && number[1] === 5 && number[2] === 5) {
+      this.notifyWrong('phone number');
+      return;
+    }
+
+    if (firstName && lastName && number.length === 10) {
       // add to the session storage items instead of adding to a database line item that would have been created on the first page, by using this code: await this.props.putUser(email, firstName, lastName, number);
 
       // set session store items with entered information
