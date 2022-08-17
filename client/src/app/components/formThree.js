@@ -85,7 +85,7 @@ export class Third extends React.Component {
         </header>
         <div>
           <form onSubmit={this.handleSubmit}>
-            <div>
+            <div id="title">
               <h3>What's your physical address?</h3>
             </div>
             <p />
@@ -125,13 +125,16 @@ export class Third extends React.Component {
                 <option value="AK">AK</option>
                 <option value="AL">AL</option>
                 <option value="AR">AR</option>
+                <option value="AS">AS - American Samoa</option>
                 <option value="AZ">AZ</option>
                 <option value="CA">CA</option>
                 <option value="CO">CO</option>
                 <option value="CT">CT</option>
+                <option value="DC">DC - Washington, D.C.</option>
                 <option value="DE">DE</option>
                 <option value="FL">FL</option>
                 <option value="GA">GA</option>
+                <option value="GU">GU - Guam</option>
                 <option value="HI">HI</option>
                 <option value="IA">IA</option>
                 <option value="ID">ID</option>
@@ -148,6 +151,7 @@ export class Third extends React.Component {
                 <option value="MO">MO</option>
                 <option value="MS">MS</option>
                 <option value="MT">MT</option>
+                <option value="MP">MP - Northern Mariana Islands</option>
                 <option value="NC">NC</option>
                 <option value="ND">ND</option>
                 <option value="NE">NE</option>
@@ -160,6 +164,7 @@ export class Third extends React.Component {
                 <option value="OK">OK</option>
                 <option value="OR">OR</option>
                 <option value="PA">PA</option>
+                <option value="PR">PR - Puerto Rico</option>
                 <option value="RI">RI</option>
                 <option value="SC">SC</option>
                 <option value="SD">SD</option>
@@ -167,29 +172,13 @@ export class Third extends React.Component {
                 <option value="TX">TX</option>
                 <option value="UT">UT</option>
                 <option value="VA">VA</option>
+                <option value="VI">VI - US Virgin Islands</option>
                 <option value="VT">VT</option>
                 <option value="WA">WA</option>
                 <option value="WI">WI</option>
                 <option value="WV">WV</option>
                 <option value="WY">WY</option>
-                <option value="Province">Province</option>
               </select>
-            </div>
-            <div>
-              {this.state.state === 'Province' ? (
-                <>
-                  <label htmlFor="Province">Province</label>
-                  <br />
-                  <input
-                    name="province"
-                    type="text"
-                    placeholder="Ex: Puerto Rico"
-                    onChange={this.handleChange}
-                  />
-                </>
-              ) : (
-                <></>
-              )}
             </div>
             <p />
             <div>
