@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'antd';
+import toast, { Toaster } from 'react-hot-toast';
 import { addUserFormThree } from '../store/user/users';
 
 export class Third extends React.Component {
@@ -30,24 +31,30 @@ export class Third extends React.Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
-    if (event.target.name === 'province') {
-      this.setState({
-        [this.state.state]: this.state.province,
-        [event.target.name]: event.target.value,
-      });
-    }
   }
+
+  notify = (missingVariable) =>
+    toast(`A required field is missing. You must enter a ${missingVariable}.`);
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { state, streetAddress, city, zipCode } = this.state;
+    const { streetAddress, city, state, zipCode } = this.state;
     if (!streetAddress || !city || !state || !zipCode) {
-      alert('A required field is missing.');
+      if (!streetAddress) this.notify('street address');
+      if (!city) {
+        this.notify('city');
+      }
+      if (!state) {
+        this.notify('choice of state');
+      }
+      if (!zipCode) {
+        this.notify('zip code.');
+      }
       return;
     }
     if (streetAddress && city && state && zipCode) {
-      // this.props.putUser(email, streetAddress, city, state, zipCode);
+      // add to the session storage items instead of adding to a database line item that would have been created on the first page, by using this code: this.props.putUser(email, streetAddress, city, state, zipCode);
 
       // set session store items with entered information
       sessionStorage.setItem('streetAddress', streetAddress);
@@ -188,6 +195,7 @@ export class Third extends React.Component {
             <div>
               <button type="submit">Submit</button>
             </div>
+            <Toaster />
           </form>
         </div>
         <div id="nav">
