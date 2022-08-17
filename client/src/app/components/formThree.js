@@ -33,27 +33,49 @@ export class Third extends React.Component {
     });
   }
 
-  notify = (missingVariable) =>
-    toast(`A required field is missing. You must enter a ${missingVariable}.`);
+  notifyMissing = (missingVariable) =>
+    toast(
+      `A required field is missing. You must enter a valid ${missingVariable}.`
+    );
+  notifyWrong = (missingVariable) =>
+    toast(`You must enter a valid ${missingVariable}`);
 
   handleSubmit = (event) => {
     event.preventDefault();
 
     const { streetAddress, city, state, zipCode } = this.state;
-    if (!streetAddress || !city || !state || !zipCode) {
-      if (!streetAddress) this.notify('street address');
-      if (!city) {
-        this.notify('city');
+    if (
+      !streetAddress ||
+      streetAddress.length < 2 ||
+      !city ||
+      city.length < 2 ||
+      !state ||
+      !zipCode ||
+      zipCode.length !== 5
+    ) {
+      // The length checks ensure that something is entered, but doesn't cover validation of deliberate invalid addresses ("dsf" or "n/a") or invalid address entered by mistake ("3 MNain Street"). Ideally, to get clean data, there would be a check of the input addresses in real time against a "address correction/validation/verification" database or API
+      if (!streetAddress) this.notifyMissing('street address');
+      if (streetAddress.length < 2) {
+        this.notifyWrong('street address');
+      }
+      if (!city) this.notifyMissing('city');
+      if (city.length < 2) {
+        this.notifyWrong('city');
       }
       if (!state) {
-        this.notify('choice of state');
+        this.notifyMissing('choice of state');
       }
-      if (!zipCode) {
-        this.notify('zip code.');
+      if (!zipCode) this.notifyMissing('zip code');
+      if (zipCode.length !== 5) {
+        this.notifyWrong('zip code');
       }
       return;
     }
-    if (streetAddress && city && state && zipCode) {
+    if (streetAddress && city && state && zipCode.length === 5) {
+      if (zipCode < 1 || zipCode > 99950) {
+        this.notifyWrong(`zip code`);
+        return;
+      }
       // add to the session storage items instead of adding to a database line item that would have been created on the first page, by using this code: this.props.putUser(email, streetAddress, city, state, zipCode);
 
       // set session store items with entered information
