@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import { addUserFormTwo } from '../store/user/users';
 
-// This form is intentionally done differently solely to display another approach to React components
+// This form is intentionally done differently, solely to display another approach to React components
 
 class Second extends React.Component {
   constructor() {
@@ -19,6 +18,7 @@ class Second extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.clearSession = this.clearSession.bind(this);
   }
 
   componentDidMount() {}
@@ -40,16 +40,24 @@ class Second extends React.Component {
     }
     if (firstName && lastName && number) {
       // await this.props.putUser(email, firstName, lastName, number);
+
+      // set session store items with entered information
       sessionStorage.setItem('firstName', firstName);
       sessionStorage.setItem('lastName', lastName);
       sessionStorage.setItem('number', number);
 
-      // go to FormThree
+      // go to formThree page
       window.location.href = `/formThree`;
     } else {
       alert(`Error with handleSumit`);
       return;
     }
+  };
+
+  clearSession = () => {
+    sessionStorage.clear();
+    // go to Home page
+    window.location.href = `/`;
   };
 
   render() {
@@ -58,72 +66,87 @@ class Second extends React.Component {
         <header>
           <h1>Page 2 of 3</h1>
         </header>
-        <FormTwo
-          {...this.state}
-          change={this.handleChange}
-          submit={this.handleSubmit}
-        />
+        <div>
+          <FormTwo
+            {...this.state}
+            change={this.handleChange}
+            submit={this.handleSubmit}
+            clear={this.clearSession}
+          />
+        </div>
       </div>
     );
   }
 }
 
 const FormTwo = (data) => {
-  const { submit, change, firstName, lastName, number } = data;
+  const { submit, change, clear, firstName, lastName, number } = data;
   return (
     <div>
-      <form onSubmit={submit}>
-        <div>
-          <h3>What's your name and number?</h3>
-        </div>
-        <p />
-        <div>
-          <label htmlFor="firstName">First Name</label>
-          <br />
-          <input
-            name="firstName"
-            type="text"
-            value={firstName}
-            placeholder="Ex: Ned"
-            onChange={change}
-          />
-        </div>
-        <p />
-        <div>
-          <label htmlFor="lastName">Last Name</label>
-          <br />
-          <input
-            name="lastName"
-            type="text"
-            value={lastName}
-            placeholder="Ex: Flanders"
-            onChange={change}
-          />
-        </div>
-        <p />
-        <div>
-          <label htmlFor="number">
-            Phone number
-            <br />
-            Enter ten digits without any spaces, dashes, or other symbols
-          </label>
-          <br />
-          <input
-            name="number"
-            type="text"
-            value={number}
-            placeholder="Ex: 5558675309"
-            onChange={change}
-          />
-        </div>
-        <p />
-        <div>
-          <button type="submit">Submit</button>
-        </div>
-      </form>
       <div>
-        {/* clear session store with this exit */}
-        <p /> <Link to="/">Exit to Home Page</Link>
+        <form onSubmit={submit}>
+          <div>
+            <h3>What's your name and number?</h3>
+          </div>
+          <p />
+          <div>
+            <label htmlFor="firstName">First name</label>
+            <br />
+            <input
+              name="firstName"
+              type="text"
+              value={firstName}
+              placeholder="Ex: Ned"
+              onChange={change}
+            />
+          </div>
+          <p />
+          <div>
+            <label htmlFor="lastName">Last name</label>
+            <br />
+            <input
+              name="lastName"
+              type="text"
+              value={lastName}
+              placeholder="Ex: Flanders"
+              onChange={change}
+            />
+          </div>
+          <p />
+          <div>
+            <label htmlFor="number">
+              Phone number
+              <br />
+              Enter ten digits without any spaces, dashes, or other symbols.
+              Example: 5558675309
+            </label>
+            <br />
+            <input
+              name="number"
+              type="text"
+              value={number}
+              placeholder="Ex: 5558675309"
+              onChange={change}
+            />
+          </div>
+          <p />
+          <div>
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+      <div id="nav">
+        <p />
+        {/* clears session store with this exit */}
+        <Button
+          variant="contained"
+          size="small"
+          onClick={() => {
+            clear();
+          }}
+        >
+          Exit to Home Page
+        </Button>
       </div>
     </div>
   );
