@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import { addUserFormThree } from '../store/user/users';
 
@@ -21,6 +20,7 @@ export class Third extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.ClearSession = this.ClearSession.bind(this);
   }
 
   componentDidMount() {}
@@ -40,12 +40,16 @@ export class Third extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+
+    // get the variable named state from this.state
     var { state } = this.state;
+
+    // if the user lives in a province, save their form entered data in the variable named state
     if (state === 'Province') {
       state = this.state.province;
     }
-    const { streetAddress, city, zipCode } = this.state;
 
+    const { streetAddress, city, zipCode } = this.state;
     if (!streetAddress || !city || !state || !zipCode) {
       alert('A required field is missing.');
       return;
@@ -53,16 +57,24 @@ export class Third extends React.Component {
     if (streetAddress && city && state && zipCode) {
       // this.props.putUser(email, streetAddress, city, state, zipCode);
 
+      // set session store items with entered information
       sessionStorage.setItem('streetAddress', streetAddress);
       sessionStorage.setItem('city', city);
       sessionStorage.setItem('state', state);
       sessionStorage.setItem('zipCode', zipCode);
 
+      // go to confirmation page
       window.location.href = `/confirmation`;
     } else {
       alert(`Error with handleSumit`);
       return;
     }
+  };
+
+  ClearSession = () => {
+    sessionStorage.clear();
+    // go to Home page
+    window.location.href = `/`;
   };
 
   render() {
@@ -78,7 +90,7 @@ export class Third extends React.Component {
             </div>
             <p />
             <div>
-              <label htmlFor="streetAddress">Street Address</label>
+              <label htmlFor="streetAddress">Street address</label>
               <br />
               <input
                 name="streetAddress"
@@ -181,7 +193,7 @@ export class Third extends React.Component {
             </div>
             <p />
             <div>
-              <label htmlFor="zipCode">Zip Code</label>
+              <label htmlFor="zipCode">Zip code</label>
               <br />
               <input
                 name="zipCode"
@@ -197,9 +209,17 @@ export class Third extends React.Component {
             </div>
           </form>
         </div>
-        <div id="forms">
-          {/* clear session store with this exit */}
-          <p /> <Link to="/">Exit to Home Page</Link>
+        <div id="nav">
+          {/* clears session store with this exit */}
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => {
+              this.ClearSession();
+            }}
+          >
+            Exit to Home Page
+          </Button>
         </div>
       </div>
     );
