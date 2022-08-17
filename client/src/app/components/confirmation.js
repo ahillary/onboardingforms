@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button } from 'antd';
 import { createUser } from '../store/user/users';
 
 class Confirmation extends React.Component {
@@ -76,9 +75,14 @@ class Confirmation extends React.Component {
         zipCode
       );
 
-      // clear session store except first name
+      // clear session store, reset firstName
+      const ClearSession = () => {
+        sessionStorage.clear();
+        sessionStorage.setItem('firstName', firstName);
+      };
+      ClearSession();
 
-      // with success redirect to confirmation page
+      // with success redirect to success page
       window.location.href = `/success`;
     } catch {
       alert(`Error with handleSumit`);
@@ -117,7 +121,7 @@ class Confirmation extends React.Component {
             </div>
             <p />
             <div>
-              <label htmlFor="firstName">First Name</label>
+              <label htmlFor="firstName">First name</label>
               <br />
               <input
                 name="firstName"
@@ -128,7 +132,7 @@ class Confirmation extends React.Component {
             </div>
             <p />
             <div>
-              <label htmlFor="lastName">Last Name</label>
+              <label htmlFor="lastName">Last name</label>
               <br />
               <input
                 name="lastName"
@@ -150,7 +154,7 @@ class Confirmation extends React.Component {
             </div>
             <p />
             <div>
-              <label htmlFor="streetAddress">Street Address</label>
+              <label htmlFor="streetAddress">Street address</label>
               <br />
               <input
                 name="streetAddress"
@@ -183,7 +187,7 @@ class Confirmation extends React.Component {
             </div>
             <p />
             <div>
-              <label htmlFor="zipCode">Zip Code</label>
+              <label htmlFor="zipCode">Zip code</label>
               <br />
               <input
                 name="zipCode"
