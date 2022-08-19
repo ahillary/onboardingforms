@@ -4,7 +4,7 @@ import { apiUrl } from '../../../properties';
 
 //thunk creator
 
-export const currentUser = (email) => async (dispatch) => {
+export const checkCurrentUser = (email) => async (dispatch) => {
   try {
     const { data } = await axios.get(`${apiUrl}/api/user/${email}`);
     dispatch(fetchUser(data));
