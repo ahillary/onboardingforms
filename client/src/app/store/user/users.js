@@ -21,10 +21,49 @@ export const allUsers = () => async (dispatch) => {
     dispatch(fetchUsers(res.data));
   } catch (error) {
     console.error(
-      `HERE could not retrieve database user info to continue with signup. Error: ${error}`
+      `Could not retrieve database info, while getting all users. Error: ${error}`
     );
   }
 };
+
+//confirmation
+export const createUser =
+  (
+    email,
+    username,
+    password,
+    firstName,
+    lastName,
+    number,
+    streetAddress,
+    city,
+    state,
+    zipCode
+  ) =>
+  async (dispatch) => {
+    let res;
+    console.log('see here');
+
+    try {
+      res = await axios.post(`${apiUrl}/api/user`, {
+        email,
+        username,
+        password,
+        firstName,
+        lastName,
+        number,
+        streetAddress,
+        city,
+        state,
+        zipCode,
+      });
+      dispatch(addUser(res.data));
+    } catch (addError) {
+      console.error(
+        `Could not create user in database, thunk catch error: ${addError}`
+      );
+    }
+  };
 
 // form one
 export const addUserFormOne =
