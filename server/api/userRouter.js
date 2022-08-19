@@ -67,11 +67,7 @@ router.post('/', async (req, res, next) => {
     }
 
     // add new user to database
-    const addedUser = await User.create({
-      username: req.body.username,
-      email: req.body.email,
-      password: req.body.password,
-    });
+    const addedUser = await User.create(req.body);
     // send confirmation that the user was added
     res.status(201).json(addedUser);
   } catch (error) {
