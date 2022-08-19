@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Button } from 'antd';
 import toast, { Toaster } from 'react-hot-toast';
 import { addUserFormOne } from '../store/user/users';
+import { checkCurrentUser } from '../store/user/user';
 
 class First extends React.Component {
   constructor() {
@@ -14,22 +15,47 @@ class First extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.ClearSession = this.ClearSession.bind(this);
+    this.notifyMissing = this.notifyMissing.bind(this);
+    this.checkDbForEmail = this.checkDbForEmail.bind(this);
+    this.clearSession = this.clearSession.bind(this);
   }
 
   componentDidMount() {}
 
   // every keystroke within the form will update the state
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
-  }
+  };
 
-  notifyMissing = (missingVariable) =>
+  notifyMissing = (missingVariable) => {
     toast(
       `A required field is missing. You must enter a valid ${missingVariable}.`
     );
+  };
+
+  checkDbForEmail = async (email) => {
+    console.log('first the props.userIs: ', this.props.userIs);
+    if (this.props.userIs !== []) {
+      // if already checked for a user the array will have something in it, which could cause an issue. Need to address this edge case
+    }
+
+    // check the db for the email
+    await this.props.checkDb(email);
+    console.log('the props about checking db: ', this.props);
+
+    // if there is a user, first make sure you are looking at the right one (edge case stated above) then return a message of error. If the correct email is being looked at (use === ) then continue with onboarding
+    try {
+      if (this.props.userIs) {
+        return console.log('found in db: ', this.props.userIs);
+      }
+    } catch {
+      alert(
+        'Email already linked with an account. Sign in or use a different email to create an account.'
+      );
+    }
+  };
 
   handleSubmit = async (event) => {
     event.preventDefault();
@@ -49,6 +75,13 @@ class First extends React.Component {
       return;
     }
 
+    // let result = this.checkDbForEmail(email);
+
+    // console.log('check db: ', result);
+
+    // if (this.checkDbForEmail(email)) {
+    //   return;
+    // }
     // check database for email address
     // check database for username
     // toast message that it is already in the database
@@ -68,14 +101,14 @@ class First extends React.Component {
       sessionStorage.setItem('password', this.state.password);
 
       // go to formTwo page
-      window.location.href = `/formTwo`;
+      // window.location.href = `/formTwo`;
     } else {
       alert(`Error with handleSumit`);
       return;
     }
   };
 
-  ClearSession = () => {
+  clearSession = () => {
     sessionStorage.clear();
     // go to Home page
     window.location.href = `/`;
@@ -87,6 +120,19 @@ class First extends React.Component {
         <header>
           <h1>Page 1 of 3</h1>
         </header>
+        <div>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={() => {
+              this.checkDbForEmail(this.state.email);
+              console.log('on click props: ', this.props);
+              console.log('on click state: ', this.state);
+            }}
+          >
+            check db
+          </Button>
+        </div>
         <div>
           <form onSubmit={this.handleSubmit}>
             <div id="title">
@@ -149,7 +195,7 @@ class First extends React.Component {
             variant="contained"
             size="small"
             onClick={() => {
-              this.ClearSession();
+              this.clearSession();
             }}
           >
             Exit to Home Page
@@ -160,13 +206,20 @@ class First extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    userIs: state.user,
+    email: state.email,
+  };
+};
 // mapping dispatch to props
 
 const mapDispatchToProps = (dispatch) => {
   return {
     addAUser: (email, username, password) =>
       dispatch(addUserFormOne(email, username, password)),
+    checkDb: (email) => dispatch(checkCurrentUser(email)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(First);
+export default connect(mapStateToProps, mapDispatchToProps)(First);
