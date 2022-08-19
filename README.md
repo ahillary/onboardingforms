@@ -1,4 +1,5 @@
-A technical challenge to create an interface for a user to input information, aka an onboarding process that includes a series of forms. Bootstrapped with [create-react-app](https://github.com/facebook/create-react-app) and [redux toolkit](https://redux-toolkit.js.org/) to fulfill front-end requirements. Bootstrapped with [express-generator](https://github.com/expressjs/generator) for back-end.
+An interface for a user to input information, aka an onboarding process that includes a series of forms. Bootstrapped with [create-react-app](https://github.com/facebook/create-react-app) and [redux toolkit](https://redux-toolkit.js.org/) to fulfill front-end requirements. Bootstrapped with [express-generator](https://github.com/expressjs/generator) for back-end.
+Pop up alerts use [react-hot-toast](https://react-hot-toast.com/docs)
 
 To begin testing:
 
@@ -9,8 +10,6 @@ To begin testing:
 -In the server directory, run `npm run seed` to seed a database with dummydata for testing.
 
 -In the server directory, run `npm install`. Then run `npm run start-dev` to start your Express app and view it in your browser at [http://localhost:4000](http://localhost:4000)
-
-Alerts use [react-hot-toast](https://react-hot-toast.com/docs)
 
 ### Deployment
 
