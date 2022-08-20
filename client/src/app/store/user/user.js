@@ -4,9 +4,17 @@ import { apiUrl } from '../../../properties';
 
 //thunk creator
 
-export const checkCurrentUser = (email) => async (dispatch) => {
+export const checkCurrentEmail = (email) => async (dispatch) => {
   try {
-    const { data } = await axios.get(`${apiUrl}/api/user/${email}`);
+    const { data } = await axios.get(`${apiUrl}/api/email/${email}`);
+    dispatch(fetchUser(data));
+  } catch (error) {
+    console.log('What have you done?!', error);
+  }
+};
+export const checkCurrentUsername = (username) => async (dispatch) => {
+  try {
+    const { data } = await axios.get(`${apiUrl}/api/username/${username}`);
     dispatch(fetchUser(data));
   } catch (error) {
     console.log('What have you done?!', error);
