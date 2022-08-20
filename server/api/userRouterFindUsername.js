@@ -2,8 +2,7 @@ const router = require('express').Router();
 const User = require('../db/models/user');
 const { connect } = require('../db');
 
-// GET /user/:username - find a specific user using username as identifier
-
+// GET /:username - find a specific user using username as identifier
 router.get('/:username', async (req, res, next) => {
   // get just the username out of the uri request
   const username = req.params.username;
@@ -23,8 +22,8 @@ router.get('/:username', async (req, res, next) => {
       return;
     }
 
-    // send specific user info
-    res.status(200).json(user);
+    // return specific user's username only
+    res.status(200).json(user.username);
   } catch (error) {
     next(error);
   }
