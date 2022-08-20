@@ -27,35 +27,6 @@ const { connect } = require('../db');
 //   }
 // });
 
-// for returning users that left and will finish
-// GET /user/:email - find a specific user using email address as identifier
-
-router.get('/:email', async (req, res, next) => {
-  // get just the email out of the uri request
-  const email = req.params.email;
-  if (!email) {
-    res.status(400).end();
-    return;
-  }
-  try {
-    // Does this user exist in the database?
-    const user = await User.findOne({
-      where: { email: email },
-    });
-
-    //  If cannot find user in database, send 404
-    if (!user) {
-      res.status(404).end();
-      return;
-    }
-
-    // send specific user info
-    res.status(200).json(user);
-  } catch (error) {
-    next(error);
-  }
-});
-
 // POST /user - add/create a new user
 router.post('/', async (req, res, next) => {
   try {
