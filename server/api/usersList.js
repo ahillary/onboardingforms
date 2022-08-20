@@ -2,16 +2,15 @@ const router = require('express').Router();
 const User = require('../db/models/user');
 const { connect } = require('../db');
 
-// GET /users/:username - find a specific user by username
+// GET /users/:username - find a specific user by username and return full db entry
 router.get('/:username', async (req, res, next) => {
+  // get just the username out of the uri request
+  const username = req.params.username;
+  if (!username) {
+    res.status(400).end();
+    return;
+  }
   try {
-    // get just the username out of the uri request
-    const username = req.params.username;
-    if (!username) {
-      res.status(400).end();
-      return;
-    }
-
     // find the user in the database with matching username
     const user = await User.findOne({
       where: {
@@ -25,7 +24,7 @@ router.get('/:username', async (req, res, next) => {
       return;
     }
 
-    // send specific user info
+    // if user is found send specific user info
     res.status(200).json(user);
   } catch (error) {
     next(error);
