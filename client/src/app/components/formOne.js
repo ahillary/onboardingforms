@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Button } from 'antd';
 import toast, { Toaster } from 'react-hot-toast';
 import { addUserFormOne } from '../store/user/users';
-import { checkCurrentUser } from '../store/user/user';
+import { checkCurrentEmail, checkCurrentUsername } from '../store/user/user';
 
 class First extends React.Component {
   constructor() {
@@ -17,6 +17,7 @@ class First extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.notifyMissing = this.notifyMissing.bind(this);
     this.checkDbForEmail = this.checkDbForEmail.bind(this);
+    this.checkDbForUsername = this.checkDbForUsername.bind(this);
     this.clearSession = this.clearSession.bind(this);
   }
 
@@ -35,25 +36,57 @@ class First extends React.Component {
     );
   };
 
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
   checkDbForEmail = async (email) => {
-    console.log('first the props.userIs: ', this.props.userIs);
-    if (this.props.userIs !== []) {
-      // if already checked for a user the array will have something in it, which could cause an issue. Need to address this edge case
-    }
+    // if no user has been found in the db, this prop will start as an empty array
+    // if (this.props.userIs === []) {
+    // }
+
+    // Need to address this edge case:
+    // if (this.props.userIs !== []) {
+    // if already checked for a user and found one, the array will have something in it, which could cause an issue
+    // }
 
     // check the db for the email
-    await this.props.checkDb(email);
-    console.log('the props about checking db: ', this.props);
+    await this.props.checkDbEmail(email);
 
-    // if there is a user, first make sure you are looking at the right one (edge case stated above) then return a message of error. If the correct email is being looked at (use === ) then continue with onboarding
+    // If the email matches one in the system show error toast notification. Otherwise, no issue and user can continue with onboarding.
     try {
-      if (this.props.userIs) {
-        return console.log('found in db: ', this.props.userIs);
+      if (this.props.userIs.email === this.state.email) {
+        toast(
+          `It looks like ${this.state.email} may already be in our system. Please sign in or use a different email to create an account.`
+        );
       }
     } catch {
-      alert(
-        'Email already linked with an account. Sign in or use a different email to create an account.'
-      );
+      alert('Error checking db for email');
+    }
+  };
+  checkDbForUsername = async (username) => {
+    // check the db for the username
+    await this.props.checkDbUn(username);
+
+    // If the username matches one in the system show error toast notification. Otherwise, no issue and user can continue with onboarding.
+    try {
+      if (this.props.userIs.username === this.state.username) {
+        toast(
+          `It looks like ${this.state.username} may already be in our system. Please sign in or use a different username to create an account.`
+        );
+      }
+    } catch {
+      alert('Error checking db for username');
     }
   };
 
@@ -125,6 +158,7 @@ class First extends React.Component {
             variant="contained"
             size="small"
             onClick={() => {
+              this.checkDbForUsername(this.state.username);
               this.checkDbForEmail(this.state.email);
               console.log('on click props: ', this.props);
               console.log('on click state: ', this.state);
@@ -218,7 +252,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addAUser: (email, username, password) =>
       dispatch(addUserFormOne(email, username, password)),
-    checkDb: (email) => dispatch(checkCurrentUser(email)),
+    checkDbEmail: (email) => dispatch(checkCurrentEmail(email)),
+    checkDbUn: (username) => dispatch(checkCurrentUsername(username)),
   };
 };
 
