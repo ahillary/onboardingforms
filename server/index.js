@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
+const compression = require('compression');
 const cors = require('cors');
 const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
@@ -21,11 +22,12 @@ const sessionStore = new SequelizeStore({
   dialect: 'postgres',
 });
 const socketio = require('socket.io');
-const indexRouter = require('./api/');
+const indexRouter = require('./api');
 
 const app = express();
 
 const createApp = () => {
+  // logging middleware
   app.use(logger('dev'));
 
   app.use(cookieParser());
@@ -37,11 +39,14 @@ const createApp = () => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
 
-  // static middleware
+  // compression middleware
+  app.use(compression());
+
+  // static file-serving middleware
   app.use(express.static(path.join(__dirname, 'public')));
 
   // api route
-  app.use('/', indexRouter);
+  app.use('/api', indexRouter);
 
   // error handler
   app.use(function (err, req, res, next) {
