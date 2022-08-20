@@ -149,20 +149,6 @@ class First extends React.Component {
           <h1>Page 1 of 3</h1>
         </header>
         <div>
-          <Button
-            variant="contained"
-            size="small"
-            onClick={() => {
-              this.checkDbForUsername(this.state.username);
-              this.checkDbForEmail(this.state.email);
-              console.log('on click props: ', this.props);
-              console.log('on click state: ', this.state);
-            }}
-          >
-            check db
-          </Button>
-        </div>
-        <div>
           <form onSubmit={this.handleSubmit}>
             <div id="title">
               <h3>Let's create your login</h3>
@@ -206,13 +192,6 @@ class First extends React.Component {
             <p />
             <div>
               <button type="submit">Submit</button>
-              {/* <Button type="link">Button type=Link. EXPLORE THIS?</Button> */}
-              {/* <Link
-                to={`/formTwo`}
-                // take te state to the form {...this.state}
-              >
-                <button type="submit">Submit</button>
-              </Link> */}
             </div>
             <Toaster />
           </form>
