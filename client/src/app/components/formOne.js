@@ -2,8 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'antd';
 import toast, { Toaster } from 'react-hot-toast';
-import { addUserFormOne } from '../store/user/users';
-import { checkCurrentEmail, checkCurrentUsername } from '../store/user/user';
+import {
+  addUserFormOne,
+  checkCurrentEmail,
+  checkCurrentUsername,
+} from '../store/';
 
 class First extends React.Component {
   constructor() {
@@ -36,58 +39,49 @@ class First extends React.Component {
     );
   };
 
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
   checkDbForEmail = async (email) => {
     // if no user has been found in the db, this prop will start as an empty array
     // if (this.props.userIs === []) {
     // }
 
     // Need to address this edge case:
-    // if (this.props.userIs !== []) {
+    // if (this.props.userEmail !== []) {
     // if already checked for a user and found one, the array will have something in it, which could cause an issue
     // }
 
     // check the db for the email
     await this.props.checkDbEmail(email);
 
-    // If the email matches one in the system show error toast notification. Otherwise, no issue and user can continue with onboarding.
+    // If the email matches one in the system show error toast notification and return string 'no'. Otherwise, no issue and user can continue with onboarding, return string 'ok'.
     try {
-      if (this.props.userIs.email === this.state.email) {
+      if (this.props.userEmail === this.state.email) {
         toast(
           `It looks like ${this.state.email} may already be in our system. Please sign in or use a different email to create an account.`
         );
+        return 'no';
       }
     } catch {
       alert('Error checking db for email');
     }
+    return 'ok';
   };
+
   checkDbForUsername = async (username) => {
     // check the db for the username
     await this.props.checkDbUn(username);
 
-    // If the username matches one in the system show error toast notification. Otherwise, no issue and user can continue with onboarding.
+    // If the username matches one in the system show error toast notification and return string 'no'. Otherwise, no issue and user can continue with onboarding, return string 'ok'.
     try {
-      if (this.props.userIs.username === this.state.username) {
+      if (this.props.userName === this.state.username) {
         toast(
           `It looks like ${this.state.username} may already be in our system. Please sign in or use a different username to create an account.`
         );
+        return 'no';
       }
     } catch {
       alert('Error checking db for username');
     }
+    return 'ok';
   };
 
   handleSubmit = async (event) => {
@@ -108,42 +102,43 @@ class First extends React.Component {
       return;
     }
 
-    // let result = this.checkDbForEmail(email);
-
-    // console.log('check db: ', result);
-
-    // if (this.checkDbForEmail(email)) {
-    //   return;
-    // }
     // check database for email address
+    let emailResult = await this.checkDbForEmail(email);
+
     // check database for username
-    // toast message that it is already in the database
-    // return
+    let usernameResult = await this.checkDbForUsername(username);
 
-    if (password.length < 6) {
-      toast(`Please create a more secure password`);
-      return;
-    }
+    if (emailResult === 'ok' && usernameResult === 'ok') {
+      if (password.length < 6) {
+        toast(`Please create a more secure password of at least 6 characters.`);
+        return;
+      }
+      try {
+        if (email && password && username) {
+          // Create session storage items instead of adding to the database on the first page using this code: await this.props.addAUser(email, username, password);
 
-    if (email && password && username) {
-      // Create session storage items instead of adding to the database on the first page using this code: await this.props.addAUser(email, username, password);
+          // set session store items with entered information
+          sessionStorage.setItem('username', username);
+          sessionStorage.setItem('email', email);
+          sessionStorage.setItem('password', this.state.password);
 
-      // set session store items with entered information
-      sessionStorage.setItem('username', username);
-      sessionStorage.setItem('email', email);
-      sessionStorage.setItem('password', this.state.password);
-
-      // go to formTwo page
-      // window.location.href = `/formTwo`;
-    } else {
-      alert(`Error with handleSumit`);
-      return;
+          // go to formTwo page
+          window.location.href = `/formTwo`;
+        } else {
+          alert(`Error with handleSumit to set session items`);
+          return;
+        }
+      } catch (error) {
+        alert(`Error with handleSumit`);
+        return;
+      }
     }
   };
 
   clearSession = () => {
+    // clear any session storage
     sessionStorage.clear();
-    // go to Home page
+    // then go to Home page
     window.location.href = `/`;
   };
 
@@ -224,7 +219,6 @@ class First extends React.Component {
         </div>
         <div id="nav">
           <p />
-          {/* clears session store with this exit */}
           <Button
             variant="contained"
             size="small"
@@ -240,14 +234,15 @@ class First extends React.Component {
   }
 }
 
+// mapping state to props
 const mapStateToProps = (state) => {
   return {
-    userIs: state.user,
-    email: state.email,
+    userEmail: state.userEmail,
+    userName: state.userName,
   };
 };
-// mapping dispatch to props
 
+// mapping dispatch to props
 const mapDispatchToProps = (dispatch) => {
   return {
     addAUser: (email, username, password) =>
