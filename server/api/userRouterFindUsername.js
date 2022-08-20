@@ -18,7 +18,7 @@ router.get('/:username', async (req, res, next) => {
 
     //  If cannot find user in database, send 404
     if (!user) {
-      res.status(404).end();
+      res.status(200).json('ok').end();
       return;
     }
 
