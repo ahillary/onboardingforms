@@ -7,8 +7,8 @@ router.get('/', (req, res) => {
 
 router.use('/email', require('./userRouterFindEmail'));
 router.use('/username', require('./userRouterFindUsername'));
-router.use('/users', require('./usersRouter'));
-router.use('/user', require('./userRouter'));
+router.use('/users', require('./usersList'));
+router.use('/user', require('./userRouterAddUpdate'));
 
 router.use((req, res, next) => {
   const error = new Error('API route not found!');
