@@ -7,7 +7,7 @@ import {
   addUser,
   fetchUsers,
   putUser,
-} from './userAction';
+} from './userActions';
 import { apiUrl } from '../../../properties';
 
 /***** history ****/

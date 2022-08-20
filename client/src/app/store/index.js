@@ -5,7 +5,8 @@ import axios from 'axios';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import usersReducer from './user/users';
-import userReducer from './user/user';
+import usernameReducer from './user/userName';
+import emailReducer from './user/userEmail';
 
 const middleware = composeWithDevTools(
   applyMiddleware(
@@ -18,7 +19,8 @@ export const store = configureStore(
   {
     reducer: combineReducers({
       users: usersReducer,
-      user: userReducer,
+      userEmail: emailReducer,
+      userName: usernameReducer,
     }),
   },
   middleware
@@ -26,4 +28,5 @@ export const store = configureStore(
 
 export default store;
 export * from './user/users';
-export * from './user/user';
+export * from './user/userEmail';
+export * from './user/userName';
