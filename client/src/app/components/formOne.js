@@ -16,12 +16,12 @@ class First extends React.Component {
       username: '',
       password: '',
     };
+    this.clearSession = this.clearSession.bind(this);
+    this.checkDbForEmail = this.checkDbForEmail.bind(this);
+    this.checkDbForUsername = this.checkDbForUsername.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.notifyMissing = this.notifyMissing.bind(this);
-    this.checkDbForEmail = this.checkDbForEmail.bind(this);
-    this.checkDbForUsername = this.checkDbForUsername.bind(this);
-    this.clearSession = this.clearSession.bind(this);
   }
 
   componentDidMount() {}
@@ -159,7 +159,8 @@ class First extends React.Component {
               <br />
               <input
                 name="email"
-                type="text"
+                type="email"
+                size={20}
                 value={this.state.email}
                 placeholder="Ex: hello@there.org"
                 onChange={this.handleChange}
@@ -172,6 +173,7 @@ class First extends React.Component {
               <input
                 name="username"
                 type="text"
+                size={20}
                 value={this.state.username}
                 placeholder="Ex: TheCakeIsALie"
                 onChange={this.handleChange}
@@ -184,6 +186,7 @@ class First extends React.Component {
               <input
                 name="password"
                 type="password"
+                size={20}
                 value={this.state.password}
                 placeholder="ssshhhh it's a secret"
                 onChange={this.handleChange}
