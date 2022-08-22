@@ -19,31 +19,38 @@ export class Third extends React.Component {
       email: sessionStorage.getItem('email'),
       password: sessionStorage.getItem('password'),
     };
+    this.clearSession = this.clearSession.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.ClearSession = this.ClearSession.bind(this);
+    this.notifyMissing = this.notifyMissing.bind(this);
+    this.notifyWrong = this.notifyWrong.bind(this);
   }
 
   componentDidMount() {}
 
   // every keystroke within the form will update the state
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
-  }
+  };
 
-  notifyMissing = (missingVariable) =>
+  notifyMissing = (missingVariable) => {
     toast(
       `A required field is missing. You must enter a valid ${missingVariable}.`
     );
-  notifyWrong = (missingVariable) =>
+  };
+
+  notifyWrong = (missingVariable) => {
     toast(`You must enter a valid ${missingVariable}`);
+  };
 
   handleSubmit = (event) => {
     event.preventDefault();
 
     const { streetAddress, city, state, zipCode } = this.state;
+
+    // The length checks ensure that something is entered, but doesn't cover validation of deliberate invalid addresses ("dsf" or "n/a") or invalid address entered by mistake ("3 MNain Street"). Ideally, to get clean data, there would be a check of the input addresses in real time against a "address correction/validation/verification" database or API
     if (
       !streetAddress ||
       streetAddress.length < 2 ||
@@ -53,25 +60,25 @@ export class Third extends React.Component {
       !zipCode ||
       zipCode.length !== 5
     ) {
-      // The length checks ensure that something is entered, but doesn't cover validation of deliberate invalid addresses ("dsf" or "n/a") or invalid address entered by mistake ("3 MNain Street"). Ideally, to get clean data, there would be a check of the input addresses in real time against a "address correction/validation/verification" database or API
+      // how to handle each issue with the form data
       if (!streetAddress) this.notifyMissing('street address');
-      if (streetAddress.length < 2) {
+      if (streetAddress.length === 1) {
         this.notifyWrong('street address');
       }
       if (!city) this.notifyMissing('city');
-      if (city.length < 2) {
+      if (city.length === 1) {
         this.notifyWrong('city');
       }
       if (!state) {
         this.notifyMissing('choice of state');
       }
       if (!zipCode) this.notifyMissing('zip code');
-      if (zipCode.length !== 5) {
-        this.notifyWrong('zip code');
-      }
+      if (zipCode && zipCode.length !== 5) this.notifyWrong('zip code');
       return;
     }
-    if (streetAddress && city && state && zipCode.length === 5) {
+
+    // if data passes above basic validation checks
+    if (streetAddress && city && state && zipCode) {
       if (zipCode < 1 || zipCode > 99950) {
         this.notifyWrong(`zip code`);
         return;
@@ -92,7 +99,7 @@ export class Third extends React.Component {
     }
   };
 
-  ClearSession = () => {
+  clearSession = () => {
     sessionStorage.clear();
     // go to Home page
     window.location.href = `/`;
@@ -116,6 +123,7 @@ export class Third extends React.Component {
               <input
                 name="streetAddress"
                 type="text"
+                size={20}
                 value={this.state.streetAddress}
                 placeholder="Ex: 123 Road Rd"
                 onChange={this.handleChange}
@@ -128,6 +136,7 @@ export class Third extends React.Component {
               <input
                 name="city"
                 type="text"
+                size={20}
                 value={this.state.city}
                 placeholder="Ex: Big City"
                 onChange={this.handleChange}
@@ -207,7 +216,12 @@ export class Third extends React.Component {
               <br />
               <input
                 name="zipCode"
-                type="text"
+                max={99950}
+                maxLength={5}
+                min={1}
+                minLength={5}
+                type="tel"
+                size={20}
                 value={this.state.zipCode}
                 placeholder="Ex: 53099"
                 onChange={this.handleChange}
