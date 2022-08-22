@@ -17,9 +17,11 @@ class Second extends React.Component {
       email: sessionStorage.getItem('email'),
       password: sessionStorage.getItem('password'),
     };
+    this.clearSession = this.clearSession.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.clearSession = this.clearSession.bind(this);
+    this.notifyMissing = this.notifyMissing.bind(this);
+    this.notifyWrong = this.notifyWrong.bind(this);
   }
 
   componentDidMount() {}
@@ -52,11 +54,11 @@ class Second extends React.Component {
       number.length !== 10
     ) {
       if (!firstName) this.notifyMissing('first name');
-      if (firstName.length < 2) this.notifyWrong('first name');
+      if (firstName && firstName.length < 2) this.notifyWrong('first name');
       if (!lastName) this.notifyMissing('last name');
-      if (lastName.length < 2) this.notifyWrong('last name');
+      if (lastName && lastName.length < 2) this.notifyWrong('last name');
       if (!number) this.notifyMissing('phone number');
-      if (number.length !== 10) this.notifyWrong('phone number');
+      if (number && number.length !== 10) this.notifyWrong('phone number');
       return;
     }
 
@@ -123,6 +125,7 @@ const FormTwo = (data) => {
             <input
               name="firstName"
               type="text"
+              size={20}
               value={firstName}
               placeholder="Ex: Ned"
               onChange={change}
@@ -135,6 +138,7 @@ const FormTwo = (data) => {
             <input
               name="lastName"
               type="text"
+              size={20}
               value={lastName}
               placeholder="Ex: Flanders"
               onChange={change}
@@ -153,7 +157,10 @@ const FormTwo = (data) => {
             <br />
             <input
               name="number"
-              type="text"
+              type="tel"
+              size={20}
+              maxLength={10}
+              minLength={10}
               value={number}
               placeholder="Ex: 5558675309"
               onChange={change}
