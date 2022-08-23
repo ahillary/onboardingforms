@@ -22,7 +22,7 @@ const sessionStore = new SequelizeStore({
   dialect: 'postgres',
 });
 const socketio = require('socket.io');
-const indexRouter = require('./api');
+const indexRouter = require('./api/');
 
 const app = express();
 
@@ -40,13 +40,13 @@ const createApp = () => {
   app.use(express.urlencoded({ extended: false }));
 
   // compression middleware
-  app.use(compression());
+  // app.use(compression());
 
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, 'public')));
 
   // api route
-  app.use('/api', indexRouter);
+  app.use('/', indexRouter);
 
   // error handler
   app.use(function (err, req, res, next) {
