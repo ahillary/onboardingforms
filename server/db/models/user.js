@@ -54,7 +54,7 @@ const User = connect.define('user', {
     // },
   },
   number: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     // allowNull: false,
     // validate: {
     //   notEmpty: { args: true, msg: 'You must enter your phone number' },
