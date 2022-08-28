@@ -6,7 +6,7 @@ import {
   addUserFormOne,
   checkCurrentEmail,
   checkCurrentUsername,
-} from '../store/';
+} from '../../store';
 
 class First extends React.Component {
   constructor() {
@@ -136,10 +136,10 @@ class First extends React.Component {
   };
 
   clearSession = () => {
-    // clear any session storage
+    // // clear any session storage
     sessionStorage.clear();
-    // then go to Home page
-    window.location.href = `/`;
+    // // then go to Home page
+    // window.location.href = `/`;
   };
 
   render() {
