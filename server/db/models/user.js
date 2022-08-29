@@ -53,7 +53,7 @@ const User = connect.define('user', {
     //   notNull: { args: true, msg: 'You must enter your name' },
     // },
   },
-  number: {
+  phone: {
     type: Sequelize.STRING,
     // allowNull: false,
     // validate: {
