@@ -1,5 +1,5 @@
 An interface for a user to input information, aka an onboarding process that includes a series of forms. Bootstrapped with [create-react-app](https://github.com/facebook/create-react-app) and [redux toolkit](https://redux-toolkit.js.org/) to fulfill front-end requirements. Bootstrapped with [express-generator](https://github.com/expressjs/generator) for back-end.
-Pop up alerts use [react-hot-toast](https://react-hot-toast.com/docs)
+Pop up alerts use [react-hot-toast](https://react-hot-toast.com/docs). Forms use [react-final-form](https://final-form.org/docs/react-final-form/getting-started)
 
 To begin testing:
 
