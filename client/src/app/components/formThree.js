@@ -14,7 +14,7 @@ export class Third extends React.Component {
       zipCode: '',
       firstName: sessionStorage.getItem('firstName'),
       lastName: sessionStorage.getItem('lastName'),
-      number: sessionStorage.getItem('number'),
+      phone: sessionStorage.getItem('phone'),
       username: sessionStorage.getItem('username'),
       email: sessionStorage.getItem('email'),
       password: sessionStorage.getItem('password'),
