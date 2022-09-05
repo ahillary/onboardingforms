@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import First from './app/components/one/FirstPage';
 import Second from './app/components/two/SecondPage';
-import Third from './app/components/formThree';
+import Third from './app/components/three/ThirdPage';
 import Confirmation from './app/components/confirmation';
 import Success from './app/components/success';
 import HomePage from './app/components/homePage';
