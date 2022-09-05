@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import { Button } from 'antd';
 import toast from 'react-hot-toast';
 import FormTwo from './formTwo';
-import { addUserFormTwo } from '../../store/user/users';
-
-// This form is intentionally done differently, solely to display another approach to React components
+import { addUserFormTwo } from '../../store/';
 
 class Second extends React.Component {
   constructor() {
@@ -78,14 +76,14 @@ class Second extends React.Component {
     return (
       <div id="forms">
         <header>
-          <h1>Page 2 of 3</h1>
+          <h1>Form 2 of 3</h1>
         </header>
         <div>
           <FormTwo change={this.handleChange} submit={this.handleSubmit} />
         </div>
         <div id="nav">
           <p />
-          {/* clears session store with this exit */}
+          {/* clears session store with this page exit */}
           <Button
             variant="contained"
             size="small"
