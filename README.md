@@ -11,6 +11,15 @@ To begin testing:
 
 -In the server directory, run `npm install`. Then run `npm run start-dev` to start your Express app and view it in your browser at [http://localhost:4000](http://localhost:4000)
 
+Form pages 1-3 and success page
+
+![IMG_2704](https://user-images.githubusercontent.com/51545396/188518327-754b4e38-be3a-45ac-93ea-8737a0c0a383.JPG)
+
+Code sample from Page 2 of 3
+
+<img width="690" alt="Second Page code" src="https://user-images.githubusercontent.com/51545396/188518840-51d07c00-0d18-4ed5-a07c-20bc747eeb5d.png">
+
+
 ### Deployment
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
