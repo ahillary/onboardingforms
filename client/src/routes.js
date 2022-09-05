@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import First from './app/components/one/formOne';
+import First from './app/components/one/FirstPage';
 import Second from './app/components/two/SecondPage';
 import Third from './app/components/formThree';
 import Confirmation from './app/components/confirmation';
